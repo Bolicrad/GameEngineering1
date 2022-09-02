@@ -6,7 +6,7 @@ Player::Player()
 	cout << "Enter Player name: ";
 	SetName();
 	cout << "Player " << name << " initiated, position: ";
-	Entity::Print();
+	Print();
 }
 
 Player:: ~Player() {

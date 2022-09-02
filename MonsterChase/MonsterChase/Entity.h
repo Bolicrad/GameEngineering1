@@ -9,7 +9,7 @@ public:
 	~Entity();
 	void Move(int xInput, int yInput);
 	void Print();
-	void SetName();
+
 	static int xRange;
 	static int yRange;
 	
@@ -18,6 +18,7 @@ private:
 	int y;
 
 protected:
+	void SetName();
 	char* name = (char*)malloc(sizeof(char*));
 };
 

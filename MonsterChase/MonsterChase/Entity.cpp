@@ -8,9 +8,9 @@ void Entity::Move(int xInput, int yInput) {
 	this->x += xInput;
 	this->y += yInput;
 	if (this->x > xRange) this->x = xRange;
-	if (this->x < 0) this->x = 0;
+	if (this->x < -xRange) this->x = -xRange;
 	if (this->y > yRange) this->y = yRange;
-	if (this->y < 0) this->y = 0;
+	if (this->y < -yRange) this->y = -yRange;
 }
 
 void Entity::Print() {
@@ -20,7 +20,6 @@ void Entity::Print() {
 void Entity::SetName() {
 	int i;
 	char c;
-	cin.ignore();
 	cin.get(c);
 	name[0] = c;
 	//cout << c << endl;
@@ -35,8 +34,8 @@ void Entity::SetName() {
 
 Entity::Entity()
 {
-	this->x = rand() % (xRange + 1);
-	this->y = rand() % (yRange + 1);
+	this->x = rand() % (2 * xRange + 1) - xRange;
+	this->y = rand() % (2 * yRange + 1) - yRange;
 }
 
 Entity::~Entity()
