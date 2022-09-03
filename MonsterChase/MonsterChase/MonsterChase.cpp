@@ -42,7 +42,8 @@ bool GameLoop() {
     }
 
     Player::player->Move(x, y);
-    cin.ignore();
+    cin.clear();
+    cin.ignore(INT_MAX,'\n');
 
     cout << "Monsters' action time!" << endl;
     for (int i = 0; i < Monster::monsterCount; i++) {
@@ -67,15 +68,27 @@ int main()
     do {
         cout << "Please enter the x Range (input > 0, Range = [-input, input]): ";
         cin >> Entity::xRange;
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(INT_MAX, '\n');
+        }
     } while (Entity::xRange <= 0);
     do {
         cout << "Please enter the y Range (input > 0, Range = [-input, input]): ";
         cin >> Entity::yRange;
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(INT_MAX, '\n');
+        }
     } while (Entity::yRange <= 0);
 
     do {
         cout << "Please enter the Moster Number (input > 0): ";
         cin >> Monster::monsterCount;
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(INT_MAX, '\n');
+        }
     } while (Monster::monsterCount <= 0);
 
     cin.ignore();
