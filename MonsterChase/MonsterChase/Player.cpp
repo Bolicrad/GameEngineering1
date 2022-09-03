@@ -6,9 +6,11 @@ Player::Player()
 	cout << "Enter Player name: ";
 	SetName();
 	cout << "Player " << name << " initiated, position: ";
-	Print();
+	PrintPos();
 }
 
 Player:: ~Player() {
 	cout << "Player " << name << " died, Game Over" << endl;
 }
+
+Player* Player::player;

@@ -5,9 +5,11 @@ Monster::Monster() {
 	cout << "Enter Monster name: ";
 	SetName();
 	cout << "Monster " << name << " initiated, position: ";
-	Print();
+	PrintPos();
 }
 
 Monster::~Monster() {
-
+	cout << "Monster " << name << " deleted" << endl;
 }
+
+Monster *Monster::monsters;

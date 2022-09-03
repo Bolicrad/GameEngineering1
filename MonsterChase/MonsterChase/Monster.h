@@ -6,5 +6,7 @@ class Monster :
 public:
     Monster();
     ~Monster();
+
+    static Monster* monsters;
 };
 

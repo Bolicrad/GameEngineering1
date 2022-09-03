@@ -6,5 +6,6 @@ class Player :
 public:
     Player();
     ~Player();
+    static Player* player;
 };
 

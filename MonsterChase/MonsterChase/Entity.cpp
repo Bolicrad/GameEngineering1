@@ -1,3 +1,4 @@
+
 #include "Entity.h"
 #include <iostream>
 
@@ -11,10 +12,16 @@ void Entity::Move(int xInput, int yInput) {
 	if (this->x < -xRange) this->x = -xRange;
 	if (this->y > yRange) this->y = yRange;
 	if (this->y < -yRange) this->y = -yRange;
+	cout << name << " moved to ";
+	PrintPos();
 }
 
-void Entity::Print() {
+void Entity::PrintPos() {
 	cout << "(" << x << ", " << y << ")" << endl;
+}
+
+void Entity::PrintName() {
+	cout << name;
 }
 
 void Entity::SetName() {

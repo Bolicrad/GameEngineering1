@@ -8,7 +8,8 @@ public:
 	Entity();
 	~Entity();
 	void Move(int xInput, int yInput);
-	void Print();
+	void PrintPos();
+	void PrintName();
 
 	static int xRange;
 	static int yRange;
