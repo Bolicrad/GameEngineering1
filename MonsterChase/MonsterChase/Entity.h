@@ -7,19 +7,19 @@ class Entity
 public:
 	Entity();
 	~Entity();
-	void Move(int xInput, int yInput);
+	bool Move(int xInput, int yInput);
 	void PrintPos();
 	void PrintName();
 
 	static int xRange;
 	static int yRange;
-	
-private:
 	int x;
 	int y;
 
 protected:
+	void PosGen();
 	void SetName();
 	char* name = (char*)malloc(sizeof(char*));
+	virtual void SetUp() = 0;
 };
 

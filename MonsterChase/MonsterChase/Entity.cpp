@@ -5,15 +5,29 @@
 int Entity::xRange = 0;
 int Entity::yRange = 0;
 
-void Entity::Move(int xInput, int yInput) {
-	this->x += xInput;
-	this->y += yInput;
+bool Entity::Move(int x, int y) {
+	int xTemp = this->x;
+	int yTemp = this->y;
+
+	this->x += x;
+	this->y += y;
+
+	bool stroke = true;
+	
 	if (this->x > xRange) this->x = xRange;
-	if (this->x < -xRange) this->x = -xRange;
-	if (this->y > yRange) this->y = yRange;
-	if (this->y < -yRange) this->y = -yRange;
-	cout << name << " moved to ";
+	else if (this->x < -xRange) this->x = -xRange;
+	else if (this->y > yRange) this->y = yRange;
+	else if (this->y < -yRange) this->y = -yRange;
+	else stroke = false;
+
+	cout << name;
+	if (this->x == xTemp && this->y == yTemp) {
+		cout << " stays at ";
+	}
+	else cout << " moved to ";
 	PrintPos();
+
+	return stroke;
 }
 
 void Entity::PrintPos() {
@@ -22,6 +36,11 @@ void Entity::PrintPos() {
 
 void Entity::PrintName() {
 	cout << name;
+}
+
+void Entity::PosGen() {
+	x = rand() % (2 * xRange + 1) - xRange;
+	y = rand() % (2 * yRange + 1) - yRange;
 }
 
 void Entity::SetName() {
@@ -41,8 +60,7 @@ void Entity::SetName() {
 
 Entity::Entity()
 {
-	this->x = rand() % (2 * xRange + 1) - xRange;
-	this->y = rand() % (2 * yRange + 1) - yRange;
+	PosGen();
 }
 
 Entity::~Entity()

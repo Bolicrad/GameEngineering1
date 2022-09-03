@@ -7,5 +7,7 @@ public:
     Player();
     ~Player();
     static Player* player;
+private:
+    void SetUp();
 };
 

@@ -31,15 +31,33 @@ bool GameLoop() {
         break;
     case 'q':
     case 'Q':
+        cout << "Quit..." << endl;
         return false;
         break;
     default:
-        cout << "Invalid Input. Player ";
+        cout << "Invalid input. Player ";
         Player::player->PrintName();
-        cout << " not moved." << endl;
+        cout << " did nothing." << endl;
         break;
     }
+
     Player::player->Move(x, y);
+    cin.ignore();
+
+    cout << "Monsters' action time!" << endl;
+    for (int i = 0; i < Monster::monsterCount; i++) {
+        Monster::monsters[i].Wander();
+        if (Monster::monsters[i].x == Player::player->x &&
+            Monster::monsters[i].y == Player::player->y) {
+            cout << "Player ";
+            Player::player->PrintName();
+            cout << " is caught by Monster ";
+            Monster::monsters[i].PrintName();
+            cout << endl;
+            return false;
+        }
+    }
+
     return true;
 }
 
@@ -55,14 +73,13 @@ int main()
         cin >> Entity::yRange;
     } while (Entity::yRange <= 0);
 
-    int monsterCount = 0;
     do {
         cout << "Please enter the Moster Number (input > 0): ";
-        cin >> monsterCount;
-    } while (monsterCount <= 0);
+        cin >> Monster::monsterCount;
+    } while (Monster::monsterCount <= 0);
 
     cin.ignore();
-    Monster::monsters = new Monster[monsterCount];
+    Monster::monsters = new Monster[Monster::monsterCount];
     Player::player = new Player();
 
     cout << "Awesome, let's start the game!" << endl;
@@ -71,7 +88,7 @@ int main()
         cout << "Game Continues..." << endl;
     }
 
-    cout << "Quit..." << endl;
+    
 
     delete Player::player;
     delete[] Monster::monsters;
