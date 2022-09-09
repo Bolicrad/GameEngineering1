@@ -2,6 +2,7 @@
 //
 #include "Player.h"
 #include "Monster.h"
+#include "Engine.h"
 #include <iostream>
 using namespace std;
 
@@ -64,6 +65,7 @@ bool GameLoop() {
 
 int main()
 {
+    EngineInitialization();
     cout << "Welcome to Monster Chase by Lei!" << endl;
     do {
         cout << "Please enter the x Range (input > 0, Range = [-input, input]): ";
