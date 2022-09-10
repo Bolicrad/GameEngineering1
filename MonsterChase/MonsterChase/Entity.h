@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdlib>
+#include "Engine.h"
 using namespace std;
 
 class Entity
@@ -13,6 +14,7 @@ public:
 
 	static int xRange;
 	static int yRange;
+	Point2D Pos;
 	int x;
 	int y;
 
