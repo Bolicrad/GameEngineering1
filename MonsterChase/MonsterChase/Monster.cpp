@@ -16,7 +16,7 @@ void Monster::Wander() {
 	int x = rand() % 3 - 1;
 	int y = rand() % 3 - 1;
 	if (Move(x, y)) {
-		Rebirth("stroke into wall");
+		Rebirth("stroke into boundary");
 	}
 }
 
@@ -31,5 +31,6 @@ void Monster::SetUp() {
 	cout << "Enter Monster name: ";
 	SetName();
 	cout << "Monster " << name << " initiated, position: ";
-	PrintPos();
+	PrintPos(Pos);
+	cout << endl;
 }

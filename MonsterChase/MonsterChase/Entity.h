@@ -8,15 +8,13 @@ class Entity
 public:
 	Entity();
 	~Entity();
-	bool Move(int xInput, int yInput);
-	void PrintPos();
+	bool Move(Point2D input);
+	bool Move(int x, int y);
+	void PrintPos(Point2D point);
 	void PrintName();
 
-	static int xRange;
-	static int yRange;
+	static Point2D range;
 	Point2D Pos;
-	int x;
-	int y;
 
 protected:
 	void PosGen();

@@ -26,6 +26,8 @@ public:
 	Point2D& operator-=(Point2D rhs);
 	Point2D& operator*=(int rhs);
 	Point2D& operator/=(int rhs);
+
+	static Point2D zero;
 	
 private:
 	int x;

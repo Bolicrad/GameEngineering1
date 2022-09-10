@@ -14,7 +14,8 @@ void Player::SetUp() {
 	cout << "Enter Player name: ";
 	SetName();
 	cout << "Player " << name << " initiated, position: ";
-	PrintPos();
+	PrintPos(Pos);
+	cout << endl;
 }
 
 Player* Player::player;

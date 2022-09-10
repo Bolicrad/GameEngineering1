@@ -9,25 +9,24 @@ bool GameLoop() {
     char input = 'q';
     cout << "Tell me your action (WASD for moving, Q for quit) : " << endl;
     cin >> input;
-    int x = 0;
-    int y = 0;
+    Point2D movement = Point2D();
     switch (input)
     {
     case 'a':
     case 'A':
-        x = -1;
+        movement.setX(-1);
         break;
     case 'd':
     case 'D':
-        x = 1;
+        movement.setX(1);
         break;
     case 's':
     case 'S':
-        y = -1;
+        movement.setY(-1);
         break;
     case 'w':
     case 'W':
-        y = 1;
+        movement.setY(-1);
         break;
     case 'q':
     case 'Q':
@@ -41,15 +40,14 @@ bool GameLoop() {
         break;
     }
 
-    Player::player->Move(x, y);
+    Player::player->Move(movement);
     cin.clear();
     cin.ignore(INT_MAX,'\n');
 
     cout << "Monsters' action time!" << endl;
     for (int i = 0; i < Monster::monsterCount; i++) {
         Monster::monsters[i].Wander();
-        if (Monster::monsters[i].x == Player::player->x &&
-            Monster::monsters[i].y == Player::player->y) {
+        if (Monster::monsters[i].Pos == Player::player->Pos) {
             cout << "Player ";
             Player::player->PrintName();
             cout << " is caught by Monster ";
@@ -66,22 +64,26 @@ int main()
 {
     EngineInitialization();
     cout << "Welcome to Monster Chase by Lei!" << endl;
+
+    int xRange;
     do {
         cout << "Please enter the x Range (input > 0, Range = [-input, input]): ";
-        cin >> Entity::xRange;
+        cin >> xRange;
         if (cin.fail()) {
             cin.clear();
             cin.ignore(INT_MAX, '\n');
         }
-    } while (Entity::xRange <= 0);
+    } while (xRange <= 0);
+    int yRange;
     do {
         cout << "Please enter the y Range (input > 0, Range = [-input, input]): ";
-        cin >> Entity::yRange;
+        cin >> yRange;
         if (cin.fail()) {
             cin.clear();
             cin.ignore(INT_MAX, '\n');
         }
-    } while (Entity::yRange <= 0);
+    } while (yRange <= 0);
+    Entity::range = Point2D(xRange, yRange);
 
     do {
         cout << "Please enter the Moster Number (input > 0): ";
@@ -101,8 +103,6 @@ int main()
     while (GameLoop()) {
         cout << "Game Continues..." << endl;
     }
-
-    
 
     delete Player::player;
     delete[] Monster::monsters;

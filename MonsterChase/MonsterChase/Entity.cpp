@@ -2,36 +2,51 @@
 #include "Entity.h"
 #include <iostream>
 
-int Entity::xRange = 0;
-int Entity::yRange = 0;
+Point2D Entity::range;
 
-bool Entity::Move(int x, int y) {
-	int xTemp = this->x;
-	int yTemp = this->y;
-
-	this->x += x;
-	this->y += y;
-
-	bool stroke = true;
-	
-	if (this->x > xRange) this->x = xRange;
-	else if (this->x < -xRange) this->x = -xRange;
-	else if (this->y > yRange) this->y = yRange;
-	else if (this->y < -yRange) this->y = -yRange;
-	else stroke = false;
+bool Entity::Move(Point2D input) {
 
 	cout << name;
-	if (this->x == xTemp && this->y == yTemp) {
+	if (input == Point2D::zero) {
 		cout << " stays at ";
+		PrintPos(Pos);
+		cout << endl;
+		return false;
 	}
-	else cout << " moved to ";
-	PrintPos();
 
-	return stroke;
+	Point2D temp = Pos;
+	Pos += input;
+
+	cout << " is trying to move by ";
+	PrintPos(input);
+	cout << endl;
+
+	if (Pos.getX() > range.getX()) {
+		Pos.setX(range.getX());
+	}
+	if (Pos.getX() < -range.getX()) {
+		Pos.setX(-range.getX());
+	}
+	if (Pos.getY() > range.getY()) {
+		Pos.setY(range.getY());
+	}
+	if (Pos.getY() < -range.getY()) {
+		Pos.setY(-range.getY());
+	}
+
+	cout << name << ((Pos == temp ? " hit the boundary then bounced back to " : " moved to "));
+	PrintPos(Pos);
+	cout << endl;
+
+	return Pos == temp; // true result indicates the entity hit the boundary
 }
 
-void Entity::PrintPos() {
-	cout << "(" << x << ", " << y << ")" << endl;
+bool Entity::Move(int x, int y) {
+	return Move(Point2D(x, y));
+}
+
+void Entity::PrintPos(Point2D point) {
+	cout << "(" << point.getX() << ", " << point.getY() << ")";
 }
 
 void Entity::PrintName() {
@@ -39,8 +54,9 @@ void Entity::PrintName() {
 }
 
 void Entity::PosGen() {
-	x = rand() % (2 * xRange + 1) - xRange;
-	y = rand() % (2 * yRange + 1) - yRange;
+	Pos.setX(rand() % (2 * range.getX() + 1)); // get random in [0, 2 * range.getX()]
+	Pos.setY(rand() % (2 * range.getY() + 1)); 
+	Pos -= range; // shift actuall range to [-range, range]
 }
 
 void Entity::SetName() {
