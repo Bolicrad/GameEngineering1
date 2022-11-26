@@ -49,6 +49,7 @@ void Entity::PrintPos(Point2D point) {
 	cout << "(" << point.getX() << ", " << point.getY() << ")";
 }
 
+
 void Entity::PrintName() {
 	cout << name;
 }
@@ -67,8 +68,11 @@ void Entity::SetName() {
 	//cout << c << endl;
 	for (i = 1; c != '\n'; i++) {
 		cin.get(c);
-		name = (char*)realloc(name, sizeof(char*) * (i + 1));
-		name[i] = c;
+		char* tmp = (char*)realloc(name, sizeof(char*) * (static_cast<unsigned long long>(i) + 1));
+		if (tmp != NULL) {
+			name = tmp;
+			name[i] = c;
+		}
 	}
 	name[i - 1] = '\0';
 	//cout << strlen(name) << endl;
@@ -81,4 +85,5 @@ Entity::Entity()
 
 Entity::~Entity()
 {
+	free(name);
 }

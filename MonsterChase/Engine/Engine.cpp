@@ -47,6 +47,7 @@ void Point2DUnitTest() {
     // Point2D /= int
     B /= 2;
     assert(B == Point2D(2, 3));
+    cout << "Point2D class unit test pass" << endl;
 }
 
 void EngineInitialization() {

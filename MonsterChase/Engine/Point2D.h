@@ -8,30 +8,30 @@ public:
 		y(i_y)
 	{}
 	
-	int getX() { return x; }
-	int getY() { return y; }
+	int getX(void) const { return x; }
+	int getY(void) const { return y; }
 
 	void setX(int input) { x = input; }
 	void setY(int input) { y = input; }
 
-	bool operator==(Point2D rhs);
-	bool operator!=(Point2D rhs);
-	Point2D operator+(Point2D rhs);
-	Point2D operator-();
-	Point2D operator-(Point2D rhs);
-	Point2D operator*(int rhs);
-	Point2D operator/(int rhs);
-	Point2D& operator=(Point2D rhs);
-	Point2D& operator+=(Point2D rhs);
-	Point2D& operator-=(Point2D rhs);
-	Point2D& operator*=(int rhs);
-	Point2D& operator/=(int rhs);
+	inline bool operator==(const Point2D& rhs);
+	inline bool operator!=(const Point2D& rhs);
+	inline Point2D operator+(const Point2D& rhs);
+	inline Point2D operator-();
+	inline Point2D operator-(const Point2D& rhs);
+	inline Point2D operator*(int rhs);
+	inline Point2D operator/(int rhs);
+	inline Point2D& operator=(const Point2D& rhs);
+	inline Point2D& operator+=(const Point2D& rhs);
+	inline Point2D& operator-=(const Point2D& rhs);
+	inline Point2D& operator*=(int rhs);
+	inline Point2D& operator/=(int rhs);
 
-	static Point2D zero;
+	static const Point2D zero;
 	
 private:
 	int x;
 	int y;
 };
 
-inline Point2D operator*(int lhs, Point2D rhs) { return rhs * lhs; }
+#include "Point2D-inl.h" 
