@@ -5,8 +5,8 @@
 using namespace std;
 
 void Point2DUnitTest() {
-    Point2D A(0, 1);
-    Point2D B(2, 3);
+    const Point2D A(0, 1);
+    const Point2D B(2, 3);
     // equality
     bool bEqual = A == B;
     assert(bEqual == false);
@@ -23,6 +23,7 @@ void Point2DUnitTest() {
     // Point2D - Point2D
     C = B - A;
     assert(C == Point2D(2, 2));
+
     // Point2D * int
     C = A * 2;
     assert(C == Point2D(0, 2));
@@ -35,18 +36,21 @@ void Point2DUnitTest() {
     // negate
     C = -B;
     assert(C == Point2D(-2, -3));
+    //direct assignment
+    C = B;
+    assert(C == Point2D(2, 3));
     // Point2D += Point2D
-    B += Point2D(2, 1);
-    assert(B == Point2D(4, 4));
+    C += Point2D(2, 1);
+    assert(C == Point2D(4, 4));
     // Point2D -= Point2d
-    B -= Point2D(2, 1);
-    assert(B == Point2D(2, 3));
+    C -= Point2D(2, 1);
+    assert(C == Point2D(2, 3));
     // Point2D *= int
-    B *= 2;
-    assert(B == Point2D(4, 6));
+    C *= 2;
+    assert(C == Point2D(4, 6));
     // Point2D /= int
-    B /= 2;
-    assert(B == Point2D(2, 3));
+    C /= 2;
+    assert(C == Point2D(2, 3));
     cout << "Point2D class unit test pass" << endl;
 }
 

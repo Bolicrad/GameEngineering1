@@ -14,13 +14,13 @@ public:
 	void setX(int input) { x = input; }
 	void setY(int input) { y = input; }
 
-	inline bool operator==(const Point2D& rhs);
-	inline bool operator!=(const Point2D& rhs);
-	inline Point2D operator+(const Point2D& rhs);
-	inline Point2D operator-();
-	inline Point2D operator-(const Point2D& rhs);
-	inline Point2D operator*(int rhs);
-	inline Point2D operator/(int rhs);
+	inline bool operator==(const Point2D& rhs) const;
+	inline bool operator!=(const Point2D& rhs) const;
+	inline const Point2D operator+(const Point2D& rhs) const;
+	inline const Point2D operator-() const;
+	inline const Point2D operator-(const Point2D& rhs) const;
+	inline const Point2D operator*(int rhs) const;
+	inline const Point2D operator/(int rhs) const;
 	inline Point2D& operator=(const Point2D& rhs);
 	inline Point2D& operator+=(const Point2D& rhs);
 	inline Point2D& operator-=(const Point2D& rhs);
