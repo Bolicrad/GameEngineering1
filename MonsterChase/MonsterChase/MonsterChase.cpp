@@ -1,8 +1,9 @@
 // MonsterChase.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+#include <Windows.h>
+#include <iostream>
+#include "GLib.h"
 #include "Player.h"
 #include "Monster.h"
-#include <iostream>
 using namespace std;
 
 bool GameLoop() {
@@ -60,45 +61,52 @@ bool GameLoop() {
     return true;
 }
 
-int main()
+int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {
     EngineInitialization();
     cout << "Welcome to Monster Chase by Lei!" << endl;
 
-    int xRange;
-    do {
-        cout << "Please enter the x Range (input > 0, Range = [-input, input]): ";
-        cin >> xRange;
-        if (cin.fail()) {
-            cin.clear();
-            cin.ignore(INT_MAX, '\n');
-        }
-    } while (xRange <= 0);
-    int yRange;
-    do {
-        cout << "Please enter the y Range (input > 0, Range = [-input, input]): ";
-        cin >> yRange;
-        if (cin.fail()) {
-            cin.clear();
-            cin.ignore(INT_MAX, '\n');
-        }
-    } while (yRange <= 0);
-    Entity::range = Point2D(xRange, yRange);
+    int xRange = 8;
+    //int xRange;
+    //do {
+    //    cout << "Please enter the x Range (input > 0, Range = [-input, input]): ";
+    //    cin >> xRange;
+    //    if (cin.fail()) {
+    //        cin.clear();
+    //        cin.ignore(INT_MAX, '\n');
+    //    }
+    //} while (xRange <= 0);
+    
+    int yRange = 5;
+    //int yRange;
+    //do {
+    //    cout << "Please enter the y Range (input > 0, Range = [-input, input]): ";
+    //    cin >> yRange;
+    //    if (cin.fail()) {
+    //        cin.clear();
+    //        cin.ignore(INT_MAX, '\n');
+    //    }
+    //} while (yRange <= 0);
+    //Entity::range = Point2D(xRange, yRange);
 
-    do {
-        cout << "Please enter the Moster Number (input > 0): ";
-        cin >> Monster::monsterCount;
-        if (cin.fail()) {
-            cin.clear();
-            cin.ignore(INT_MAX, '\n');
-        }
-    } while (Monster::monsterCount <= 0);
-
-    cin.ignore();
+    Monster::monsterCount = 3;
+    //do {
+    //    cout << "Please enter the Moster Number (input > 0): ";
+    //    cin >> Monster::monsterCount;
+    //    if (cin.fail()) {
+    //        cin.clear();
+    //        cin.ignore(INT_MAX, '\n');
+    //    }
+    //} while (Monster::monsterCount <= 0);
+    //cin.ignore();
+    
     Monster::monsters = new Monster[Monster::monsterCount];
     Player::player = new Player();
 
     cout << "Awesome, let's start the game!" << endl;
+
+
+
     
     while (GameLoop()) {
         cout << "Game Continues..." << endl;

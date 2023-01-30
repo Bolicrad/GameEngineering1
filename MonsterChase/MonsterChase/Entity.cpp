@@ -6,7 +6,7 @@ Point2D Entity::range;
 
 bool Entity::Move(Point2D input) {
 
-	cout << name;
+	cout << GetName();
 	if (input == Point2D::zero) {
 		cout << " stays at ";
 		PrintPos(Pos);
@@ -34,7 +34,7 @@ bool Entity::Move(Point2D input) {
 		Pos.setY(-range.getY());
 	}
 
-	cout << name << ((Pos == temp ? " hit the boundary then bounced back to " : " moved to "));
+	cout << GetName() << ((Pos == temp ? " hit the boundary then bounced back to " : " moved to "));
 	PrintPos(Pos);
 	cout << endl;
 
@@ -51,7 +51,7 @@ void Entity::PrintPos(Point2D point) {
 
 
 void Entity::PrintName() {
-	cout << name;
+	cout << GetName();
 }
 
 void Entity::PosGen() {
@@ -64,6 +64,7 @@ void Entity::SetName() {
 	int i;
 	char c;
 	cin.get(c);
+
 	name[0] = c;
 	//cout << c << endl;
 	for (i = 1; c != '\n'; i++) {
@@ -74,7 +75,7 @@ void Entity::SetName() {
 			name[i] = c;
 		}
 	}
-	name[i - 1] = '\0';
+	if (name != nullptr)name[i - 1] = '\0';
 	//cout << strlen(name) << endl;
 }
 
@@ -85,5 +86,5 @@ Entity::Entity()
 
 Entity::~Entity()
 {
-	free(name);
+	if (name != nullptr)free(name);
 }

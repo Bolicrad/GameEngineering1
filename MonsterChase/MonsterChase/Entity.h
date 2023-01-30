@@ -12,6 +12,7 @@ public:
 	bool Move(int x, int y);
 	void PrintPos(Point2D point);
 	void PrintName();
+	virtual const char* GetName() = 0;
 
 	static Point2D range;
 	Point2D Pos;

@@ -7,6 +7,7 @@ public:
     Monster();
     ~Monster();
     void Wander();
+    const char* GetName();
     static Monster* monsters;
     static int monsterCount;
 private:

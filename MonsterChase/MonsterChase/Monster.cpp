@@ -6,7 +6,7 @@ Monster::Monster() {
 }
 
 Monster::~Monster() {
-	cout << "Monster " << name << " deleted" << endl;
+	cout << "Monster " << GetName() << " deleted" << endl;
 }
 
 Monster *Monster::monsters;
@@ -21,16 +21,25 @@ void Monster::Wander() {
 }
 
 void Monster::Rebirth(const char* reason) {
-	cout << "Monster " << name << " died because of " << reason << "." << endl;
+	cout << "Monster " << GetName() << " died because of " << reason << "." << endl;
 	cout << "Generating new Monster..." << endl;
 	PosGen();
 	SetUp();
 }
 
+const char* Monster::GetName() {
+	if (name != nullptr) {
+		if (*name != '\0') {
+			return name;
+		}
+	}
+	return "Monster";
+}
+
 void Monster::SetUp() {
-	cout << "Enter Monster name: ";
-	SetName();
-	cout << "Monster " << name << " initiated, position: ";
+	//cout << "Enter Monster name: ";
+	//SetName();
+	cout << "Monster " << GetName() << " initiated, position: ";
 	PrintPos(Pos);
 	cout << endl;
 }
