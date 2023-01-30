@@ -1,4 +1,3 @@
-
 #include "Entity.h"
 #include <iostream>
 
@@ -6,20 +5,9 @@ Point2D Entity::range;
 
 bool Entity::Move(Point2D input) {
 
-	cout << GetName();
-	if (input == Point2D::zero) {
-		cout << " stays at ";
-		PrintPos(Pos);
-		cout << endl;
-		return false;
-	}
 
 	Point2D temp = Pos;
 	Pos += input;
-
-	cout << " is trying to move by ";
-	PrintPos(input);
-	cout << endl;
 
 	if (Pos.getX() > range.getX()) {
 		Pos.setX(range.getX());
@@ -34,10 +22,6 @@ bool Entity::Move(Point2D input) {
 		Pos.setY(-range.getY());
 	}
 
-	cout << GetName() << ((Pos == temp ? " hit the boundary then bounced back to " : " moved to "));
-	PrintPos(Pos);
-	cout << endl;
-
 	return Pos == temp; // true result indicates the entity hit the boundary
 }
 
@@ -49,35 +33,37 @@ void Entity::PrintPos(Point2D point) {
 	cout << "(" << point.getX() << ", " << point.getY() << ")";
 }
 
-
-void Entity::PrintName() {
-	cout << GetName();
-}
-
 void Entity::PosGen() {
 	Pos.setX(rand() % (2 * range.getX() + 1)); // get random in [0, 2 * range.getX()]
 	Pos.setY(rand() % (2 * range.getY() + 1)); 
 	Pos -= range; // shift actuall range to [-range, range]
 }
 
-void Entity::SetName() {
-	int i;
-	char c;
-	cin.get(c);
-
-	name[0] = c;
-	//cout << c << endl;
-	for (i = 1; c != '\n'; i++) {
-		cin.get(c);
-		char* tmp = (char*)realloc(name, sizeof(char*) * (static_cast<unsigned long long>(i) + 1));
-		if (tmp != NULL) {
-			name = tmp;
-			name[i] = c;
-		}
+void Entity::RenderAtPos() {
+	if (pSprite) {
+		GLib::Point2D Offset = { Pos.getX() * 100.0f, Pos.getY() * 100.0f };
+		GLib::Render(*pSprite, Offset, 0.0f, 0.0f);
 	}
-	if (name != nullptr)name[i - 1] = '\0';
-	//cout << strlen(name) << endl;
 }
+
+//void Entity::SetName() {
+//	int i;
+//	char c;
+//	cin.get(c);
+//
+//	name[0] = c;
+//	//cout << c << endl;
+//	for (i = 1; c != '\n'; i++) {
+//		cin.get(c);
+//		char* tmp = (char*)realloc(name, sizeof(char*) * (static_cast<unsigned long long>(i) + 1));
+//		if (tmp != NULL) {
+//			name = tmp;
+//			name[i] = c;
+//		}
+//	}
+//	if (name != nullptr)name[i - 1] = '\0';
+//	//cout << strlen(name) << endl;
+//}
 
 Entity::Entity()
 {
@@ -86,5 +72,5 @@ Entity::Entity()
 
 Entity::~Entity()
 {
-	if (name != nullptr)free(name);
+	if (pSprite != nullptr) GLib::Release(pSprite);
 }

@@ -3,6 +3,9 @@
 
 Monster::Monster() {
 	SetUp();
+
+	//Create Sprite for the Monster
+	pSprite = CreateSprite("data\\BadGuy.dds");
 }
 
 Monster::~Monster() {
@@ -28,17 +31,10 @@ void Monster::Rebirth(const char* reason) {
 }
 
 const char* Monster::GetName() {
-	if (name != nullptr) {
-		if (*name != '\0') {
-			return name;
-		}
-	}
 	return "Monster";
 }
 
 void Monster::SetUp() {
-	//cout << "Enter Monster name: ";
-	//SetName();
 	cout << "Monster " << GetName() << " initiated, position: ";
 	PrintPos(Pos);
 	cout << endl;
