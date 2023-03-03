@@ -5,7 +5,6 @@ using namespace std;
 Player::Player() {
 	SetUp();
 
-	//Create Sprite for the Player
 	pSprite = CreateSprite("data\\GoodGuy.dds");
 }
 

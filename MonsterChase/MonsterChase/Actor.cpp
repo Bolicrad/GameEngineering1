@@ -1,9 +1,8 @@
-#include "Entity.h"
-#include <iostream>
+#include "Actor.h"
 
-Point2D Entity::range;
+Point2D Actor::range;
 
-bool Entity::Move(Point2D input) {
+bool Actor::Move(Point2D input) {
 
 
 	Point2D temp = Pos;
@@ -25,25 +24,14 @@ bool Entity::Move(Point2D input) {
 	return Pos == temp; // true result indicates the entity hit the boundary
 }
 
-bool Entity::Move(int x, int y) {
+bool Actor::Move(int x, int y) {
 	return Move(Point2D(x, y));
 }
 
-void Entity::PrintPos(Point2D point) {
-	cout << "(" << point.getX() << ", " << point.getY() << ")";
-}
-
-void Entity::PosGen() {
+void Actor::PosGen() {
 	Pos.setX(rand() % (2 * range.getX() + 1)); // get random in [0, 2 * range.getX()]
 	Pos.setY(rand() % (2 * range.getY() + 1)); 
 	Pos -= range; // shift actuall range to [-range, range]
-}
-
-void Entity::RenderAtPos() {
-	if (pSprite) {
-		GLib::Point2D Offset = { Pos.getX() * 100.0f, Pos.getY() * 100.0f };
-		GLib::Render(*pSprite, Offset, 0.0f, 0.0f);
-	}
 }
 
 //void Entity::SetName() {
@@ -65,12 +53,7 @@ void Entity::RenderAtPos() {
 //	//cout << strlen(name) << endl;
 //}
 
-Entity::Entity()
+Actor::Actor()
 {
 	PosGen();
-}
-
-Entity::~Entity()
-{
-	if (pSprite != nullptr) GLib::Release(pSprite);
 }

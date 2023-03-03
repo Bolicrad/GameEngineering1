@@ -4,7 +4,6 @@
 Monster::Monster() {
 	SetUp();
 
-	//Create Sprite for the Monster
 	pSprite = CreateSprite("data\\BadGuy.dds");
 }
 

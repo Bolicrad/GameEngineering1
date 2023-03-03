@@ -1,7 +1,7 @@
 #pragma once
-#include "Entity.h"
+#include "Actor.h"
 class Monster :
-    public Entity
+    public Actor
 {
 public:
     Monster();
@@ -11,7 +11,7 @@ public:
     static Monster* monsters;
     static int monsterCount;
 private:
-    void Rebirth(const char* reason);
     void SetUp();
+    void Rebirth(const char* reason);
 };
 
