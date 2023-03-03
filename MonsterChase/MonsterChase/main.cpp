@@ -12,9 +12,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 {
     MonsterChase* myGame = new MonsterChase(900,900);
 
-    Engine::Initialization(i_hInstance, i_nCmdShow, *myGame);
-
-    delete myGame;
+    Engine::Initialization(i_hInstance, i_nCmdShow, myGame);
 
 #if defined _DEBUG
     _CrtDumpMemoryLeaks();

@@ -137,8 +137,21 @@ void MonsterChase::OnInit() {
     Player::player = new Player();
 }
 
-void MonsterChase::OnUpdate() {
+void MonsterChase::OnUpdate(float dt) {
     //Render All the Entities
+#ifdef _DEBUG
+    static float timer = 0;
+    static unsigned int framerate = 0;
+    timer += dt;
+    if (timer > 1000.0f) {
+        const size_t	lenBuffer = 65;
+        char			Buffer[lenBuffer];
+        sprintf_s(Buffer, lenBuffer, "Current Frame time(ms): %f\n", dt);
+        OutputDebugStringA(Buffer);
+        timer -= 1000.0f;
+    }
+#endif // _DEBUG
+
     Player::player->RenderAtPos();
     for (int i = 0; i < Monster::monsterCount; i++) {
         Monster::monsters[i].RenderAtPos();

@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <DirectXColors.h>
 #include "Engine.h"
+#include "Timing.h"
 using namespace std;
 
 void Point2DUnitTest() {
@@ -56,20 +57,24 @@ void Point2DUnitTest() {
 }
 
 namespace Engine {
-    void Initialization(HINSTANCE i_hInstance, int i_nCmdShow, Game& game) {
+    void Initialization(HINSTANCE i_hInstance, int i_nCmdShow, Game* game) {
         cout << "Engine Init" << endl;
         Point2DUnitTest();
 
         //Init GLib
-        bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, game.GetGameName(), -1, game.windowWidth, game.windowHeight, true);
+        bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, game->GetGameName(), -1, game->windowWidth, game->windowHeight, true);
 
         if (bSuccess) {
-            GLib::SetKeyStateChangeCallback(game.KeyCallBack);
+            //Bind Keyboard CallBack
+            GLib::SetKeyStateChangeCallback(game->KeyCallBack);
 
-            game.OnInit();
+            //Game Logic Initialization
+            game->OnInit();
+
 
             bool bQuit = false;
 
+            //Main Game Loop
             do {
                 GLib::Service(bQuit);
 
@@ -77,7 +82,9 @@ namespace Engine {
                     GLib::BeginRendering(DirectX::Colors::Blue);
                     GLib::Sprites::BeginRendering();
 
-                    game.OnUpdate();
+                    float dt = Timing::GetLastFrameTime_ms();
+
+                    game->OnUpdate(dt);
 
                     GLib::Sprites::EndRendering();
                     GLib::EndRendering();
@@ -85,8 +92,13 @@ namespace Engine {
 
             } while (bQuit == false);
 
-            game.OnDestroy();
+            //Game Logic destuctor
+            game->OnDestroy();
 
+            //delete game instance
+            delete game;
+            
+            //Kill GLib
             GLib::Shutdown();
         }
     }

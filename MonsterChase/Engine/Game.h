@@ -4,10 +4,9 @@ namespace Engine {
 	{
 	public:
 		virtual void OnInit() {};
-		virtual void OnUpdate() {};
+		virtual void OnUpdate(float dt) {};
 		virtual void OnDestroy() {};
 		virtual const char* GetGameName() { return nullptr; }
-		virtual void OnKey(unsigned int i_VKeyID, bool bWentDown) {};
 		
 		unsigned int windowWidth;
 		unsigned int windowHeight;

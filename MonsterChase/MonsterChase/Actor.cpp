@@ -34,25 +34,6 @@ void Actor::PosGen() {
 	Pos -= range; // shift actuall range to [-range, range]
 }
 
-//void Entity::SetName() {
-//	int i;
-//	char c;
-//	cin.get(c);
-//
-//	name[0] = c;
-//	//cout << c << endl;
-//	for (i = 1; c != '\n'; i++) {
-//		cin.get(c);
-//		char* tmp = (char*)realloc(name, sizeof(char*) * (static_cast<unsigned long long>(i) + 1));
-//		if (tmp != NULL) {
-//			name = tmp;
-//			name[i] = c;
-//		}
-//	}
-//	if (name != nullptr)name[i - 1] = '\0';
-//	//cout << strlen(name) << endl;
-//}
-
 Actor::Actor()
 {
 	PosGen();
