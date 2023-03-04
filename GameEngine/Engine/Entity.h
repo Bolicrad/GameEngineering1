@@ -73,8 +73,7 @@ namespace Engine {
 		}
 
 		Point2D<T> Pos;
-
-	protected:
+		
 		GLib::Sprite* pSprite;
 
 		//Node Tree

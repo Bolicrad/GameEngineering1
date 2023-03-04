@@ -4,6 +4,7 @@
 #include <DirectXColors.h>
 #include "Engine.h"
 #include "Timing.h"
+#include "Renderer.h"s
 using namespace std;
 
 void Point2DUnitTest() {
