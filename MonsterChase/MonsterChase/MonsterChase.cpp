@@ -4,7 +4,7 @@
 #include "MonsterChase.h"
 using namespace std;
 
-bool OnPlayerMove(const Point2D& movement) {
+bool OnPlayerMove(const Point2D<int>& movement) {
     cout << "Player Moving" << endl;
     Player::player->Move(movement);
     cout << "Monsters' action time!" << endl;
@@ -69,7 +69,7 @@ void MonsterChase::OnKey(unsigned int i_VKeyID, bool bWentDown) {
     cout << "Dealing Input:" << endl;
     //Get WSAD inputs to move the character
     if (bWentDown == false) {
-        Point2D movement = Point2D();
+        Point2D<int> movement = Point2D<int>();
         switch (i_VKeyID) {
         case 65://A
             movement.setX(-1);
@@ -114,7 +114,7 @@ void MonsterChase::OnInit() {
     //    }
     //} while (yRange <= 0);
 
-    Actor::range = Point2D(xRange, yRange);
+    Actor::range = Point2D<int>(xRange, yRange);
 
     Monster::monsterCount = 3;
     //do {

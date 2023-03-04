@@ -14,4 +14,3 @@ private:
     void SetUp();
     void Rebirth(const char* reason);
 };
-

@@ -1,4 +1,5 @@
 #pragma once
+template <typename T>
 class Point2D
 {
 public:
@@ -8,30 +9,85 @@ public:
 		y(i_y)
 	{}
 	
-	int getX(void) const { return x; }
-	int getY(void) const { return y; }
+	T getX(void) const { return x; }
+	T getY(void) const { return y; }
 
-	void setX(int input) { x = input; }
-	void setY(int input) { y = input; }
+	void setX(T input) { x = input; }
+	void setY(T input) { y = input; }
 
-	inline bool operator==(const Point2D& rhs) const;
-	inline bool operator!=(const Point2D& rhs) const;
-	inline const Point2D operator+(const Point2D& rhs) const;
-	inline const Point2D operator-() const;
-	inline const Point2D operator-(const Point2D& rhs) const;
-	inline const Point2D operator*(int rhs) const;
-	inline const Point2D operator/(int rhs) const;
-	inline Point2D& operator=(const Point2D& rhs);
-	inline Point2D& operator+=(const Point2D& rhs);
-	inline Point2D& operator-=(const Point2D& rhs);
-	inline Point2D& operator*=(int rhs);
-	inline Point2D& operator/=(int rhs);
+	//equality
+	inline bool operator==(const Point2D& rhs) const {
+		return x == rhs.getX() && y == rhs.getY();
+	};
 
-	static const Point2D zero;
+	//inequality
+	inline bool operator!=(const Point2D& rhs) const {
+		return !(*this == rhs);
+	};
+
+	//Point2D + Point2D
+	inline const Point2D<T> operator+(const Point2D& rhs) const {
+		return Point2D(x + rhs.getX(), y + rhs.getY());
+	};
+
+	//negate
+	inline const Point2D<T> operator-() const {
+		return Point2D(-x, -y);
+	};
+
+	//Point2D - Point2D
+	inline const Point2D<T> operator-(const Point2D& rhs) const {
+		return Point2D(x - rhs.getX(), y - rhs.getY());
+	};
+
+	//Point2D * valueType
+	inline const Point2D<T> operator*(T rhs) const {
+		return Point2D(x * rhs, y * rhs);
+	};
+
+	//Point2D / valueType
+	inline const Point2D<T> operator/(T rhs) const {
+		return Point2D(x / rhs, y / rhs);
+	};
+
+	//Direct Assignment
+	inline Point2D<T>& operator=(const Point2D& rhs) {
+		x = rhs.getX();
+		y = rhs.getY();
+		return *this;
+	};
+
+	//Point2D += Point2D
+	inline Point2D<T>& operator+=(const Point2D& rhs) {
+		x += rhs.getX();
+		y += rhs.getY();
+		return *this;
+	};
+
+	//Point2D -= Point2D
+	inline Point2D<T>& operator-=(const Point2D& rhs) {
+		x -= rhs.getX();
+		y -= rhs.getY();
+		return *this;
+	};
+
+	//Point2D *= valueType
+	inline Point2D<T>& operator*=(T rhs) {
+		*this = *this * rhs;
+		return *this;
+	};
+
+	//Point2D /= valueType
+	inline Point2D<T>& operator/=(T rhs) {
+		*this = *this / rhs;
+		return *this;
+	};
+
+	static const Point2D<T> zero;
 	
 private:
-	int x;
-	int y;
+	T x;
+	T y;
 };
 
 #include "Point2D-inl.h" 

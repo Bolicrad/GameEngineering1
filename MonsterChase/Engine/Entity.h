@@ -5,12 +5,13 @@
 using namespace std;
 
 namespace Engine {
+	template <typename T>
 	class Entity {
 	public:
 		~Entity() {
 			if (pSprite != nullptr) GLib::Release(pSprite);
 		}
-		void PrintPos(Point2D point) {
+		void PrintPos(Point2D<T> point) {
 			cout << "(" << point.getX() << ", " << point.getY() << ")";
 		};
 		void RenderAtPos() {
@@ -20,7 +21,7 @@ namespace Engine {
 			}
 		};
 
-		Point2D Pos;
+		Point2D<T> Pos;
 
 	protected:
 		GLib::Sprite* pSprite;

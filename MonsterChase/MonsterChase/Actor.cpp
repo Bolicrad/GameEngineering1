@@ -1,11 +1,11 @@
 #include "Actor.h"
 
-Point2D Actor::range;
+Point2D<int> Actor::range;
 
-bool Actor::Move(Point2D input) {
+bool Actor::Move(Point2D<int> input) {
 
 
-	Point2D temp = Pos;
+	Point2D<int> temp = Pos;
 	Pos += input;
 
 	if (Pos.getX() > range.getX()) {
@@ -25,12 +25,12 @@ bool Actor::Move(Point2D input) {
 }
 
 bool Actor::Move(int x, int y) {
-	return Move(Point2D(x, y));
+	return Move(Point2D<int>(x, y));
 }
 
-void Actor::PosGen() {
+void Actor::PosGen() {	
 	Pos.setX(rand() % (2 * range.getX() + 1)); // get random in [0, 2 * range.getX()]
-	Pos.setY(rand() % (2 * range.getY() + 1)); 
+	Pos.setY(rand() % (2 * range.getY() + 1));
 	Pos -= range; // shift actuall range to [-range, range]
 }
 
