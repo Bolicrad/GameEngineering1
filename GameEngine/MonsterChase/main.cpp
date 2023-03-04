@@ -1,7 +1,7 @@
 // main.cpp : This file contains the 'main' function. Program execution begins and ends there.
 
 #include <Windows.h>
-#include "MonsterChase.h"
+#include "Engine.h"
 
 #if defined _DEBUG
 #define _CRTDBG_MAP_ALLOC
@@ -10,7 +10,7 @@
 
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {
-    MonsterChase* mcGame = new MonsterChase(900,900);
+    Game* mcGame = new Game(900,900);
 
     Engine::Initialization(i_hInstance, i_nCmdShow, mcGame);
 
