@@ -45,7 +45,7 @@ namespace Engine{
 				if (result > 2 * MAX_FRAMETIME_MS)result = MAX_FRAMETIME_MS;
 			}
 			else {
-				result = 13.3;
+				result = 13.3f;
 			}
 			lastFrameStartTick = currentTick;
 
