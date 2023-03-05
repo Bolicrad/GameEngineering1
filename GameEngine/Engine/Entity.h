@@ -4,27 +4,31 @@
 #include <vector>
 #include "Helper.h"
 #include "Point2D.h"
+#include "PhysicsComponent.h"
 using namespace std;
 
 namespace Engine {
 	template <typename T>
 	class Entity {
 	public:
-		Entity<T>(Entity<T>* pParent = nullptr) {
+		Entity<T>(Entity<T>* pParent = nullptr, const char* spritePath = nullptr, bool initPhysics = false) {
 			SetParent(pParent);
+			if (spritePath != nullptr)pSprite = Helper::CreateSprite(spritePath);
+			if (initPhysics)physicsComp = new Physics::Component();
 		};
 		~Entity() {
+			//Delete Render Component
 			if (pSprite != nullptr) GLib::Release(pSprite);
+
+			//Delete Physics Component
+			
+
+			//Delete All children nodes
+			children.clear();
+			children.shrink_to_fit();
 		}
 		void PrintPos(Point2D<T> point) {
 			cout << "(" << point.getX() << ", " << point.getY() << ")";
-		};
-		void RenderAtPos() {
-			if (pSprite != nullptr) {
-				Point2D<T> worldPos = GetWorldPos();
-				GLib::Point2D Offset = { worldPos.getX() * 100.0f, worldPos.getY() * 100.0f};
-				GLib::Render(*pSprite, Offset, 0.0f, 0.0f);
-			}
 		};
 
 		void AddChild(Entity<T>* pChild) {
@@ -74,7 +78,11 @@ namespace Engine {
 
 		Point2D<T> Pos;
 		
+		//Render Component
 		GLib::Sprite* pSprite;
+
+		//Physics Component
+		Physics::Component* physicsComp;
 
 		//Node Tree
 		Entity<T>* parent = nullptr;

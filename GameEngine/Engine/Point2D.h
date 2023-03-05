@@ -4,7 +4,7 @@ class Point2D
 {
 public:
 
-	Point2D(int i_x = 0, int i_y = 0) :
+	Point2D(T i_x = 0, T i_y = 0) :
 		x(i_x),
 		y(i_y)
 	{}
@@ -82,6 +82,11 @@ public:
 		*this = *this / rhs;
 		return *this;
 	};
+
+	//Magnitude ^ 2
+	inline T Mag2() {
+		return x * x + y * y;
+	}
 
 	static const Point2D<T> zero;
 	

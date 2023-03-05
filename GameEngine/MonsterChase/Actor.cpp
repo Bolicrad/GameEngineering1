@@ -24,6 +24,14 @@ bool Actor::Move(Point2D<int> input) {
 	return Pos == temp; // true result indicates the entity hit the boundary
 }
 
+void Actor::RenderAtPos() {
+	if (pSprite != nullptr) {
+		Point2D<int> worldPos = GetWorldPos();
+		GLib::Point2D Offset = { worldPos.getX() * 100.0f, worldPos.getY() * 100.0f };
+		GLib::Render(*pSprite, Offset, 0.0f, 0.0f);
+	}
+};
+
 bool Actor::Move(int x, int y) {
 	return Move(Point2D<int>(x, y));
 }

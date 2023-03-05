@@ -5,7 +5,7 @@ using namespace std;
 Player::Player() {
 	SetUp();
 
-	pSprite = CreateSprite("data\\GoodGuy.dds");
+	pSprite = Helper::CreateSprite("data\\GoodGuy.dds");
 }
 
 Player:: ~Player() {

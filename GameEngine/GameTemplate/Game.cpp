@@ -7,6 +7,10 @@ void Game::OnUpdate(float dt) {
 
 }
 
+void Game::OnBeforeRender() {
+
+}
+
 void Game::OnDestroy() {
 
 }

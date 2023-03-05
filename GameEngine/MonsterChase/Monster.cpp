@@ -4,7 +4,7 @@
 Monster::Monster() {
 	SetUp();
 
-	pSprite = CreateSprite("data\\BadGuy.dds");
+	pSprite = Helper::CreateSprite("data\\BadGuy.dds");
 }
 
 Monster::~Monster() {

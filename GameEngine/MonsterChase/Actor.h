@@ -8,6 +8,7 @@ public:
 	Actor();
 	bool Move(Point2D<int> input);
 	bool Move(int x, int y);
+	void RenderAtPos();
 	virtual const char* GetName() = 0;
 	static Point2D<int> range;
 

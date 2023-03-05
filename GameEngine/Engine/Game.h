@@ -7,8 +7,12 @@ public:
 		KeyCallBack = std::bind(&Game::OnKey, this, std::placeholders::_1, std::placeholders::_2);
 		sceneRoot = new Engine::Entity<float>();
 	};
+	~Game() {
+		delete sceneRoot;
+	}
 	void OnInit();
 	void OnUpdate(float dt);
+	void OnBeforeRender();
 	void OnDestroy();
 	const char* GetGameName();
 

@@ -170,6 +170,7 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="Point2D.cpp" />
+    <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h" />
@@ -178,6 +179,7 @@
     <ClInclude Include="Helper.h" />
     <ClInclude Include="Point2D-inl.h" />
     <ClInclude Include="Point2D.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="Timing.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

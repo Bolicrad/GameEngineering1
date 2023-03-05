@@ -44,6 +44,9 @@ void Game::OnUpdate(float dt)
     }
 #endif // _DEBUG
 
+}
+
+void Game::OnBeforeRender() {
     Player::player->RenderAtPos();
     for (int i = 0; i < Monster::monsterCount; i++) {
         Monster::monsters[i].RenderAtPos();

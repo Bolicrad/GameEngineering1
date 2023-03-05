@@ -4,7 +4,7 @@
 #include <DirectXColors.h>
 #include "Engine.h"
 #include "Timing.h"
-#include "Renderer.h"s
+#include "Renderer.h"
 using namespace std;
 
 void Point2DUnitTest() {
@@ -69,9 +69,8 @@ namespace Engine {
             //Bind Keyboard CallBack
             GLib::SetKeyStateChangeCallback(game->KeyCallBack);
 
-            //Game Logic Initialization
+            //Initialize Custom Game Logic
             game->OnInit();
-
 
             bool bQuit = false;
 
@@ -80,12 +79,22 @@ namespace Engine {
                 GLib::Service(bQuit);
 
                 if (!bQuit) {
+                    //Calculate Frame Time
+                    float dt = Timing::GetLastFrameTime_ms();
+                    
+                    //Update Custom Game Logic
+                    game->OnUpdate(dt);
+
+                    //Calculate all Physics
+
+                    //Render all Sprites
                     GLib::BeginRendering(DirectX::Colors::Blue);
                     GLib::Sprites::BeginRendering();
-
-                    float dt = Timing::GetLastFrameTime_ms();
-
-                    game->OnUpdate(dt);
+                    
+                    //Custom Render Logic
+                    game->OnBeforeRender();
+                    //Default Render All nodes on node tree.
+                    Renderer::RenderNodeTree(game->sceneRoot);
 
                     GLib::Sprites::EndRendering();
                     GLib::EndRendering();
@@ -93,7 +102,7 @@ namespace Engine {
 
             } while (bQuit == false);
 
-            //Game Logic destuctor
+            //Custom Game Logic on Game Ends
             game->OnDestroy();
 
             //delete game instance

@@ -10,13 +10,11 @@ namespace Engine {
 			GLib::Render(*target->pSprite, Offset, 0.0f, 0.0f);
 
 		}
-		bool RenderNodeTree(Entity<float>* root)
+		void RenderNodeTree(Entity<float>* root)
 		{
 			Render(root);
-			if (root->children.size() <= 0) return false;
-			else {
-				for (auto node : root->children)RenderNodeTree(node);
-			}
+			if (root->children.size() <= 0) return;
+			for (auto child : root->children)RenderNodeTree(child);
 		}
 	}
 }
