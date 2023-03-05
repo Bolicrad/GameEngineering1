@@ -1,7 +1,10 @@
 #include "Game.h"
+#include "PhysicsComponent.h"
+
+Engine::Entity<float>* testEntity;
 
 void Game::OnInit() {
-	Engine::Entity<float>* testEntity = new Engine::Entity<float>(sceneRoot, "data\\GoodGuy.dds");
+	testEntity = new Engine::Entity<float>(sceneRoot, "data\\GoodGuy.dds", true);
 }
 
 void Game::OnUpdate(float dt) {

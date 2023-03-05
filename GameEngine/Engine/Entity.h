@@ -64,11 +64,12 @@ namespace Engine {
 			if (pParent == nullptr || HasChild(pParent)) {
 				return false;
 			}
-			if (parent)parent->RemoveChild(this);
+			if (parent != nullptr)parent->RemoveChild(this);
 			Pos = GetWorldPos();
+		
+			pParent->AddChild(this);
+			Pos -= pParent->GetWorldPos();
 			parent = pParent;
-			parent->AddChild(this);
-			Pos -= parent->GetWorldPos();
 			return true;
 		}
 

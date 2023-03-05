@@ -5,6 +5,7 @@
 #include "Engine.h"
 #include "Timing.h"
 #include "Renderer.h"
+#include "Physics.h"
 using namespace std;
 
 void Point2DUnitTest() {
@@ -86,6 +87,7 @@ namespace Engine {
                     game->OnUpdate(dt);
 
                     //Calculate all Physics
+                    Physics::UpdateNodeTree(game->sceneRoot, dt);
 
                     //Render all Sprites
                     GLib::BeginRendering(DirectX::Colors::Blue);

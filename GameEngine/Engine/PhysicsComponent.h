@@ -10,9 +10,9 @@ namespace Engine {
 			{};
 
 			Point2D<float> GetNextPos(float dt) { //Verlet
-				Point2D<float> velocity = (currentPos - lastPos) / dt;
+				Point2D<float> velocity = currentPos - lastPos;
 				Point2D<float> acceleration = (totalForce + CalculateDrag(velocity)) / mass;
-				Point2D<float> nextPos = 2 * currentPos - lastPos + acceleration * dt;
+				Point2D<float> nextPos = 2.0f * currentPos - lastPos + acceleration * dt;
 				lastPos = currentPos;
 				currentPos = nextPos;
 				return nextPos;

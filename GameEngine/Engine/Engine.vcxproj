@@ -169,6 +169,7 @@
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Helper.cpp" />
+    <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Point2D.cpp" />
     <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
@@ -177,6 +178,8 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Helper.h" />
+    <ClInclude Include="Physics.h" />
+    <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="Point2D-inl.h" />
     <ClInclude Include="Point2D.h" />
     <ClInclude Include="Renderer.h" />
