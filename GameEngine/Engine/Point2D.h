@@ -88,6 +88,11 @@ public:
 	}
 
 	static const Point2D<T> zero;
+	static const Point2D<T> one;
+	static const Point2D<T> left;
+	static const Point2D<T> right;
+	static const Point2D<T> up;
+	static const Point2D<T> down;
 	
 private:
 	T x;

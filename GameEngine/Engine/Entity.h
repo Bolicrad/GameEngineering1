@@ -21,12 +21,13 @@ namespace Engine {
 			if (pSprite != nullptr) GLib::Release(pSprite);
 
 			//Delete Physics Component
-			
+			if (physicsComp != nullptr) delete physicsComp;
 
 			//Delete All children nodes
 			children.clear();
 			children.shrink_to_fit();
 		}
+
 		void PrintPos(Point2D<T> point) {
 			cout << "(" << point.getX() << ", " << point.getY() << ")";
 		};
