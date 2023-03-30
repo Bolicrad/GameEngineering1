@@ -2,43 +2,46 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
-#include "Helper.h"
 #include "Point2D.h"
-#include "PhysicsComponent.h"
+#include "Helper.h"
+#include "SmartPtr.h"
+#include "WeakPtr.h"
 using namespace std;
 
 namespace Engine {
-	template <typename T>
+	namespace Physics {
+		struct Component;
+	}
+	namespace Renderer {
+		struct Component;
+	}
+
 	class Entity {
 	public:
-		Entity<T>(Entity<T>* pParent = nullptr, const char* spritePath = nullptr, bool initPhysics = false) {
+		Entity(Entity* pParent = nullptr, const char* spritePath = nullptr, bool initPhysics = false)
+		{
 			SetParent(pParent);
-			if (spritePath != nullptr)pSprite = Helper::CreateSprite(spritePath);
-			if (initPhysics)physicsComp = new Physics::Component();
+			if (spritePath)CreateRenderComp(spritePath);
+			if (initPhysics)CreatePhysicComp();
+			//if (spritePath)renderComp = new Renderer::Component(SmartPtr<Entity>(this), spritePath);
+			//if (initPhysics)physicsComp = new Physics::Component(SmartPtr<Entity>(this));
 		};
-		~Entity() {
-			//Delete Render Component
-			if (pSprite != nullptr) GLib::Release(pSprite);
+		inline ~Entity();
 
-			//Delete Physics Component
-			if (physicsComp != nullptr) delete physicsComp;
+		inline void CreateRenderComp(const char* spritePath);
+		inline void CreatePhysicComp();
 
-			//Delete All children nodes
-			children.clear();
-			children.shrink_to_fit();
-		}
-
-		void PrintPos(Point2D<T> point) {
+		void PrintPos(Point2D<float> point) {
 			cout << "(" << point.getX() << ", " << point.getY() << ")";
 		};
 
-		void AddChild(Entity<T>* pChild) {
+		void AddChild(Entity* pChild) {
 			children.push_back(pChild);
 		}
 
-		bool RemoveChild(Entity<T>* pChild) {
+		bool RemoveChild(Entity* pChild) {
 			for (auto iter = children.begin(); iter != children.end();) {
-				if (*iter == pChild) {
+				if (*iter == SmartPtr<Entity>(pChild)) {
 					iter = children.erase(iter);
 					return true;
 				}
@@ -47,8 +50,8 @@ namespace Engine {
 			return false;
 		}
 		
-		bool HasChild(Entity<T>* pEntity) {
-			for (Entity<T>* iter = pEntity; iter != nullptr; iter = iter->parent) {
+		bool HasChild(Entity* pEntity) {
+			for (Entity* iter = pEntity; iter != nullptr; iter = iter->parent) {
 				if (iter == this) {
 					return true;
 				}
@@ -56,12 +59,12 @@ namespace Engine {
 			return false;
 		}
 
-		bool IsChildOf(Entity<T>* pEntity) {
+		bool IsChildOf(Entity* pEntity) {
 			if (pEntity == nullptr) return false;
 			else return pEntity->HasChild(this);
 		}
 
-		bool SetParent(Entity<T>* pParent) {
+		bool SetParent(Entity* pParent) {
 			if (pParent == nullptr || HasChild(pParent)) {
 				return false;
 			}
@@ -74,20 +77,106 @@ namespace Engine {
 			return true;
 		}
 
-		Point2D<T> GetWorldPos() {
+		Point2D<float> GetWorldPos() {
 			return parent != nullptr ? Pos + parent->GetWorldPos() : Pos;
 		}
 
-		Point2D<T> Pos;
+		Point2D<float> Pos;
 		
 		//Render Component
-		GLib::Sprite* pSprite;
+		Renderer::Component* renderComp = nullptr;
 
 		//Physics Component
-		Physics::Component* physicsComp;
+		Physics::Component* physicsComp = nullptr;
 
 		//Node Tree
-		Entity<T>* parent = nullptr;
-		vector<Entity<T>*> children;
+		Entity* parent = nullptr;
+		vector<SmartPtr<Entity>> children;
 	};
+
+	namespace Physics {
+		struct Component
+		{
+		public:
+			float mass;
+			float fraction;
+			WeakPtr<Entity> pEntity;
+			Component(SmartPtr<Entity> i_pEntity, float i_Mass = 1.0f, float i_Fraction = 0.3f) :
+				pEntity(i_pEntity),
+				mass(i_Mass),
+				fraction(i_Fraction),
+				lastPos(i_pEntity->Pos)
+			{}
+
+			Point2D<float> GetNextPos(float dt)
+			{ //Midpoint, dt is in ms
+
+				Point2D<float> acceleration = (totalForce + CalculateDrag(lastVel)) / mass;
+				Point2D<float> newVel = lastVel + acceleration * dt / 1000.f;
+
+				Point2D<float> nextPos = lastPos + (newVel + lastVel) / 2.0f * dt / 1000.f;
+
+				//#ifdef _DEBUG
+				//				const size_t	lenBuffer = 65;
+				//				char			Buffer[lenBuffer];
+				//
+				//				sprintf_s(Buffer, lenBuffer, "vel:(x:%f, y:%f) acc:(x:%f, y:%f)\n", newVel.getX(), newVel.getY(), acceleration.getX(), acceleration.getY());
+				//				OutputDebugStringA(Buffer);
+				//#endif // __DEBUG
+
+				lastPos = nextPos;
+				lastVel = newVel;
+				return nextPos;
+			}
+
+			void ApplyForce(Point2D<float> i_Force) {
+				totalForce += i_Force;
+			}
+			void ReleaseForce(Point2D<float> i_Force) {
+				totalForce -= i_Force;
+			}
+
+			Point2D<float> CalculateDrag(Point2D<float>& velocity) {
+				return -velocity * fraction * velocity.Mag2();
+			}
+		private:
+			Point2D<float> totalForce;
+			Point2D<float> lastVel;
+			Point2D<float> lastPos;
+		};
+	}
+	namespace Renderer {
+		struct Component {
+			WeakPtr<Entity> pEntity;
+			GLib::Sprite* pSprite = nullptr;
+			Component(SmartPtr<Entity> i_pEntity, const char* spritePath) :
+				pEntity(i_pEntity),
+				pSprite(Helper::CreateSprite(spritePath))
+			{}
+			~Component() {
+				if (pSprite != nullptr) GLib::Release(pSprite);
+			}
+		};
+	}
+	inline void Entity::CreateRenderComp(const char* spritePath)
+	{
+		renderComp = new Renderer::Component(SmartPtr<Entity>(this), spritePath);
+	}
+
+	inline void Entity::CreatePhysicComp()
+	{
+		physicsComp = new Physics::Component(SmartPtr<Entity>(this));
+	}
+
+	inline Entity::~Entity() {
+		//Delete Render Component
+		if (renderComp != nullptr) delete renderComp;
+
+		//Delete Physics Component
+		if (physicsComp != nullptr) delete physicsComp;
+
+		//Delete All children nodes
+		children.clear();
+		children.shrink_to_fit();
+	}
 }

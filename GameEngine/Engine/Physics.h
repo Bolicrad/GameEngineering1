@@ -2,7 +2,9 @@
 #include "Entity.h"
 namespace Engine {
 	namespace Physics {
-		void Update(Entity<float>* target, float dt);
-		void UpdateNodeTree(Entity<float>* root, float dt);
+		static vector<Component*> RigidBodies = vector<Component*>();
+		void Update(Component* i_Component, float dt);
+		void BuildListFromNodeTree(SmartPtr<Entity> root);
+		void UpdateAll(float dt);
 	}
 }

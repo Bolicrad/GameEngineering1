@@ -7,11 +7,8 @@ public:
 	Game(unsigned int width, unsigned int height) :windowWidth(width), windowHeight(height) {
 		
 		KeyCallBack = std::bind(&Game::OnKey, this, std::placeholders::_1, std::placeholders::_2);
-		sceneRoot = new Engine::Entity<float>();
+		sceneRoot = new Engine::Entity();
 	};
-	~Game() {
-		delete sceneRoot;
-	}
 	void OnInit();
 	void OnUpdate(float dt);
 	void OnBeforeRender();
@@ -22,7 +19,7 @@ public:
 	unsigned int windowHeight;
 	std::function<void(unsigned int i_VKeyID, bool bWentDown)> KeyCallBack;
 	
-	Engine::Entity<float>* sceneRoot;
+	Engine::SmartPtr<Engine::Entity> sceneRoot = nullptr;
 
 private:
 	void OnKey(unsigned int i_VKeyID, bool bWentDown);

@@ -12,12 +12,18 @@ namespace Engine {
 		{}
 	};
 
-	template <typename T>
+	template <class T>
 	class BasePtr
 	{
 	public:
 		//Default Constructor
 		BasePtr() : 
+			pPtr(nullptr),
+			pRefCounters(nullptr)
+		{}
+
+		//Nullptr Constructor
+		BasePtr(std::nullptr_t) :
 			pPtr(nullptr),
 			pRefCounters(nullptr)
 		{}
@@ -31,7 +37,7 @@ namespace Engine {
 		}
 
 		//Copy Constructor for derived class U
-		template <typename U>
+		template <class U>
 		BasePtr(const BasePtr<U>& i_other) :
 			pPtr(i_other.pPtr),
 			pRefCounters(i_other.pRefCounters)
@@ -50,7 +56,7 @@ namespace Engine {
 		}
 
 		//Assignment operator for derived class U
-		template <typename U>
+		template <class U>
 		BasePtr& operator=(const BasePtr<U>& i_other) {
 			ReleaseReference();
 			pPtr = i_other.pPtr;
@@ -58,9 +64,6 @@ namespace Engine {
 			AddReference();
 			return *this;
 		}
-
-		//Assignment operator for nullptr
-		BasePtr& operator=(std::nullptr_t) { ReleaseReference(); return *this; }
 
 		operator bool() const { return pPtr != nullptr; }
 		bool operator==(BasePtr& i_other) const { return pPtr == i_other.pPtr; }
@@ -72,10 +75,12 @@ namespace Engine {
 			ReleaseReference();
 		}
 
-	protected:
-		virtual bool ReleaseReference() = 0; //Returns whether the counter decreased to zero
-		virtual bool AddReference() = 0;//Add to the counter if it exists
-		T* pPtr;
 		RefCounters* pRefCounters;
+
+	protected:
+		virtual void ReleaseReference() {}; //Returns whether the counter decreased to zero
+		virtual void AddReference() {};//Add to the counter if it exists
+		T* pPtr;
+		
 	};
 }

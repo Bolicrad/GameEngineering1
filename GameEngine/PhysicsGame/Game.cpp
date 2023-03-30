@@ -1,9 +1,9 @@
 #include "Game.h"
 
-Engine::Entity<float>* testEntity;
+Engine::Entity* testEntity;
 
 void Game::OnInit() {
-	testEntity = new Engine::Entity<float>(sceneRoot, "data\\GoodGuy.dds", true);
+	testEntity = new Engine::Entity(&(*sceneRoot), "data\\GoodGuy.dds", true);
 	testEntity->physicsComp->fraction = 3.0f;
 }
 

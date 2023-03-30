@@ -3,7 +3,9 @@
 namespace Engine {
 	namespace Renderer {
 		static float pixelRate = 100.0f;
-		void Render(Entity<float>* target);
-		void RenderNodeTree(Entity<float>* root);
+		static vector<Component*> RenderList = vector<Component*>();
+		void Render(Component* i_Component);
+		void BuildListFromNodeTree(SmartPtr<Entity> root);
+		void RenderAll();
 	}
 }

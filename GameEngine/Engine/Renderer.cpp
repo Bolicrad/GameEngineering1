@@ -1,20 +1,30 @@
 #include "Renderer.h"
-#include "Helper.h"
 namespace Engine {
 	namespace Renderer {
-		void Render(Entity<float>* target)
+		void Render(Component* i_Component)
 		{
-			if (target == nullptr) return;
-			if (target->pSprite == nullptr) return;
-			Point2D<float> worldPos = target->GetWorldPos();
-			GLib::Point2D Offset = { worldPos.getX() * pixelRate, worldPos.getY() * pixelRate };
-			GLib::Render(*target->pSprite, Offset, 0.0f, 0.0f);
+			SmartPtr<Entity> obj(i_Component->pEntity);
+			if (obj) {
+				Point2D<float> worldPos = obj->GetWorldPos();
+				GLib::Point2D Offset = { worldPos.getX() * pixelRate, worldPos.getY() * pixelRate };
+				GLib::Render(*i_Component->pSprite, Offset, 0.0f, 0.0f);
+			}
+			else {
+				//Release weak ptr of the render component
+				i_Component->pEntity = nullptr;
+				//Remove the render component from global list
+				//Todo
+			}
 		}
-		void RenderNodeTree(Entity<float>* root)
+		void BuildListFromNodeTree(SmartPtr<Entity> root)
 		{
-			Render(root);
+			if (root->renderComp)RenderList.push_back(root->renderComp);
 			if (root->children.size() <= 0) return;
-			for (auto child : root->children)RenderNodeTree(child);
+			for (auto& child : root->children) BuildListFromNodeTree(child);
+		}
+		void RenderAll()
+		{
+			for (auto comp : RenderList)Render(comp);
 		}
 	}
 }

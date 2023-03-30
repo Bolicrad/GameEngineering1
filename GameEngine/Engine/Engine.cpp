@@ -73,6 +73,9 @@ namespace Engine {
             //Initialize Custom Game Logic
             game->OnInit();
 
+            Renderer::BuildListFromNodeTree(game->sceneRoot);
+            Physics::BuildListFromNodeTree(game->sceneRoot);
+
             bool bQuit = false;
 
             //Main Game Loop
@@ -87,7 +90,7 @@ namespace Engine {
                     game->OnUpdate(dt);
 
                     //Calculate all Physics
-                    Physics::UpdateNodeTree(game->sceneRoot, dt);
+                    Physics::UpdateAll(dt);
 
                     //Render all Sprites
                     GLib::BeginRendering(DirectX::Colors::Blue);
@@ -95,8 +98,8 @@ namespace Engine {
                     
                     //Custom Render Logic
                     game->OnBeforeRender();
-                    //Default Render All nodes on node tree.
-                    Renderer::RenderNodeTree(game->sceneRoot);
+                    //Render All Valid Render Components
+                    Renderer::RenderAll();
 
                     GLib::Sprites::EndRendering();
                     GLib::EndRendering();
