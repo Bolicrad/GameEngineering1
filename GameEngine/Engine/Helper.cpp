@@ -79,4 +79,17 @@ namespace Helper {
         return pSprite;
     }
 
+    void ProcessFileContents(uint8_t* i_pFileContents, size_t i_sizeFileContents, std::function<void(uint8_t*, size_t)> i_Processor)
+    {
+        if (i_pFileContents)
+        {
+            if (i_sizeFileContents && !Engine::JobSystem::ShutdownRequested())
+                i_Processor(i_pFileContents, i_sizeFileContents);
+        }
+
+        delete[] i_pFileContents;
+
+        std::cout << "ProcessFileContents finished processing file.\n";
+    }
+
 }

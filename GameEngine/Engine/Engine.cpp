@@ -6,7 +6,8 @@
 #include "Timing.h"
 #include "Renderer.h"
 #include "Physics.h"
-#include "JobSystem/JobSystem.h"
+#include "Syncronization/Mutex.h"
+#include "Syncronization/ScopeLock.h"
 using namespace std;
 
 void Point2DUnitTest() {
@@ -60,6 +61,86 @@ void Point2DUnitTest() {
 }
 
 namespace Engine {
+
+    Mutex NewEntityMutex;
+    vector<Entity*> NewEntities;
+    // This adds a new GameObject to NewGameObjects
+    void AddNewEntity(Entity* i_pEntity)
+    {
+        if (i_pEntity)
+        {
+            // Acquire a scoped lock on the mutex
+            Engine::ScopeLock Lock(NewEntityMutex);
+
+            NewEntities.push_back(i_pEntity);
+        }
+    }
+
+    void CheckForNewEntities(SmartPtr<Entity>& root)
+    {
+        Engine::ScopeLock Lock(NewEntityMutex);
+
+        if (!NewEntities.empty())
+        {
+            for (Entity* p : NewEntities)
+            {
+                if (p)
+                {
+                    p->SetParent(&*root);
+                    p->Pos = Point2D<float>((float)(rand() % 1001 - 500), (float)(rand() % 1001 - 500));
+                }
+            }
+            NewEntities.clear();
+        }
+    }
+
+
+    void CreateEntities(uint8_t* i_pFileContents, size_t i_sizeFileContents)
+    {
+        assert(i_pFileContents && i_sizeFileContents);
+
+        uint8_t* pEndFileContents = i_pFileContents + i_sizeFileContents;
+
+        while (i_pFileContents < pEndFileContents)
+        {
+            size_t PathLength = 0;
+            const char* i_pNextName = reinterpret_cast<const char*>(i_pFileContents);
+
+            while ((i_pFileContents < pEndFileContents) && *i_pFileContents++ != '\r')
+                PathLength++;
+
+            if (PathLength)
+            {
+                std::string Path(i_pNextName, PathLength);
+                AddNewEntity(new Entity(nullptr,Path.c_str()));
+            }
+            i_pFileContents++;
+        }
+    }
+
+
+    void LoadEntitiesFromFile(SmartPtr<Entity>& root)
+    {
+        using namespace std::placeholders;
+
+        {
+            const char* CustomQueueName = "EntityLoader";
+
+            HashedString QueueName = JobSystem::CreateQueue(CustomQueueName, 2);
+
+            {
+                JobSystem::RunJob(QueueName, std::bind(Helper::ProcessFile("Entities.txt", std::bind(CreateEntities, _1, _2))));
+
+                do
+                {
+                    CheckForNewEntities(root);
+                    Sleep(10);
+                } while (JobSystem::HasJobs(CustomQueueName));
+            }
+            CheckForNewEntities(root);
+        }
+    }
+
     void Initialization(HINSTANCE i_hInstance, int i_nCmdShow, Game* game) {
         cout << "Engine Init" << endl;
         Point2DUnitTest();
@@ -70,6 +151,8 @@ namespace Engine {
         if (bSuccess) {
             //Bind Keyboard CallBack
             GLib::SetKeyStateChangeCallback(game->KeyCallBack);
+
+            LoadEntitiesFromFile(game->sceneRoot);
 
             //Initialize Custom Game Logic
             game->OnInit();
