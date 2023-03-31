@@ -100,7 +100,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(OutDir);</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d11.lib;GLib.lib;</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;GLib.lib;JobSystem.lib;</AdditionalDependencies>
     </Lib>
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
@@ -124,7 +124,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(OutDir);</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d11.lib;GLib.lib;</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;GLib.lib;JobSystem.lib;</AdditionalDependencies>
     </Lib>
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
@@ -144,7 +144,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(OutDir);</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d11.lib;GLib.lib;</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;GLib.lib;JobSystem.lib;</AdditionalDependencies>
     </Lib>
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
@@ -168,7 +168,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(OutDir);</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d11.lib;GLib.lib;</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;GLib.lib;JobSystem.lib;</AdditionalDependencies>
     </Lib>
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>

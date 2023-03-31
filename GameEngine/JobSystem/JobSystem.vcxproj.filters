@@ -104,9 +104,6 @@
     <ClInclude Include="Syncronization\WaitableObject.h">
       <Filter>Source Files\Syncronization</Filter>
     </ClInclude>
-    <ClInclude Include="Syncronization\WaitableObject.Win.h">
-      <Filter>Source Files\Syncronization</Filter>
-    </ClInclude>
     <ClInclude Include="Windows\WindowsHelpers.h">
       <Filter>Source Files\Windows</Filter>
     </ClInclude>
