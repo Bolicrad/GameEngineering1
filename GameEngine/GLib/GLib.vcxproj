@@ -103,9 +103,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(TargetPath)" "$(SolutionDir)Exports\GLib\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"
-copy "$(OutputPath)$(TargetName).pdb" "$(SolutionDir)Exports\GLib\$(ProjectName)_$(PlatformTarget)-$(Configuration).pdb"
-copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\GLib\"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <Lib>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
@@ -125,9 +124,8 @@ copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\GLib\"</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(TargetPath)" "$(SolutionDir)Exports\GLib\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"
-copy "$(OutputPath)$(TargetName).pdb" "$(SolutionDir)Exports\GLib\$(ProjectName)_$(PlatformTarget)-$(Configuration).pdb"
-copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\GLib\"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <Lib>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
@@ -151,8 +149,8 @@ copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\GLib\"</Command>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(TargetPath)" "$(SolutionDir)Exports\GLib\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"
-copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\GLib\"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <Lib>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
@@ -176,8 +174,8 @@ copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\GLib\"</Command>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(TargetPath)" "$(SolutionDir)Exports\GLib\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"
-copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\GLib\"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <Lib>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>

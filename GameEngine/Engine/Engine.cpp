@@ -6,6 +6,7 @@
 #include "Timing.h"
 #include "Renderer.h"
 #include "Physics.h"
+#include "JobSystem/JobSystem.h"
 using namespace std;
 
 void Point2DUnitTest() {
