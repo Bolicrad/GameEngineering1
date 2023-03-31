@@ -23,10 +23,12 @@ namespace Engine {
 			SetParent(pParent);
 			if (spritePath)CreateRenderComp(spritePath);
 			if (initPhysics)CreatePhysicComp();
-			//if (spritePath)renderComp = new Renderer::Component(SmartPtr<Entity>(this), spritePath);
-			//if (initPhysics)physicsComp = new Physics::Component(SmartPtr<Entity>(this));
 		};
-		inline ~Entity();
+		~Entity() {
+			//Delete All children nodes
+			children.clear();
+			children.shrink_to_fit();
+		}
 
 		inline void CreateRenderComp(const char* spritePath);
 		inline void CreatePhysicComp();
@@ -84,10 +86,10 @@ namespace Engine {
 		Point2D<float> Pos;
 		
 		//Render Component
-		Renderer::Component* renderComp = nullptr;
+		SmartPtr<Renderer::Component> renderComp;
 
 		//Physics Component
-		Physics::Component* physicsComp = nullptr;
+		SmartPtr<Physics::Component> physicsComp;
 
 		//Node Tree
 		Entity* parent = nullptr;
@@ -158,6 +160,7 @@ namespace Engine {
 			}
 		};
 	}
+
 	inline void Entity::CreateRenderComp(const char* spritePath)
 	{
 		renderComp = new Renderer::Component(SmartPtr<Entity>(this), spritePath);
@@ -166,17 +169,5 @@ namespace Engine {
 	inline void Entity::CreatePhysicComp()
 	{
 		physicsComp = new Physics::Component(SmartPtr<Entity>(this));
-	}
-
-	inline Entity::~Entity() {
-		//Delete Render Component
-		if (renderComp != nullptr) delete renderComp;
-
-		//Delete Physics Component
-		if (physicsComp != nullptr) delete physicsComp;
-
-		//Delete All children nodes
-		children.clear();
-		children.shrink_to_fit();
 	}
 }

@@ -10,7 +10,6 @@
 
 namespace Engine{
 	namespace Timing {
-		unsigned int LastFrame_ms;
 		LARGE_INTEGER PerformanceFrequency = { 0 };
 
 		bool Initialize() {
@@ -30,7 +29,8 @@ namespace Engine{
 
 		float GetTimeDiff_ms(LONGLONG i_StartTime, LONGLONG i_EndTime) {
 			if (PerformanceFrequency.QuadPart == 0) {
-				assert(Initialize());
+				bool success = Initialize();
+				assert(success);
 			}
 
 			return (1000.0f * static_cast<float>(i_EndTime - i_StartTime) / PerformanceFrequency.QuadPart);

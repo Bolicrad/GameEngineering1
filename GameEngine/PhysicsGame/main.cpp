@@ -2,6 +2,7 @@
 
 #include <Windows.h>
 #include "Engine.h"
+#include "PhysicsGame.h"
 
 #if defined _DEBUG
 #define _CRTDBG_MAP_ALLOC
@@ -10,7 +11,7 @@
 
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {
-    Game* game = new Game(900, 900);
+    PhysicsGame* game = new PhysicsGame();
 
     Engine::Initialization(i_hInstance, i_nCmdShow, game);
 

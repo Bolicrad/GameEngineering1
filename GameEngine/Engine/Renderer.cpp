@@ -3,6 +3,7 @@ namespace Engine {
 	namespace Renderer {
 		void Render(Component* i_Component)
 		{
+			float pixelRate = 100.0f;
 			SmartPtr<Entity> obj(i_Component->pEntity);
 			if (obj) {
 				Point2D<float> worldPos = obj->GetWorldPos();
@@ -16,15 +17,15 @@ namespace Engine {
 				//Todo
 			}
 		}
-		void BuildListFromNodeTree(SmartPtr<Entity> root)
+		void BuildListFromNodeTree(SmartPtr<Entity> root, vector<SmartPtr<Component>>& list)
 		{
-			if (root->renderComp)RenderList.push_back(root->renderComp);
+			if (root->renderComp)list.push_back(root->renderComp);
 			if (root->children.size() <= 0) return;
-			for (auto& child : root->children) BuildListFromNodeTree(child);
+			for (auto& child : root->children) BuildListFromNodeTree(child,list);
 		}
-		void RenderAll()
+		void RenderAll(vector<SmartPtr<Component>>& list)
 		{
-			for (auto comp : RenderList)Render(comp);
+			for (auto& comp : list)Render(&(*comp));
 		}
 	}
 }

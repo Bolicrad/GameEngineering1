@@ -73,8 +73,11 @@ namespace Engine {
             //Initialize Custom Game Logic
             game->OnInit();
 
-            Renderer::BuildListFromNodeTree(game->sceneRoot);
-            Physics::BuildListFromNodeTree(game->sceneRoot);
+            auto RenderList = vector<SmartPtr<Renderer::Component>>();
+            Renderer::BuildListFromNodeTree(game->sceneRoot, RenderList);
+
+            auto RigidBodies = vector<SmartPtr<Physics::Component>>();
+            Physics::BuildListFromNodeTree(game->sceneRoot, RigidBodies);
 
             bool bQuit = false;
 
@@ -90,7 +93,7 @@ namespace Engine {
                     game->OnUpdate(dt);
 
                     //Calculate all Physics
-                    Physics::UpdateAll(dt);
+                    Physics::UpdateAll(dt, RigidBodies);
 
                     //Render all Sprites
                     GLib::BeginRendering(DirectX::Colors::Blue);
@@ -99,7 +102,7 @@ namespace Engine {
                     //Custom Render Logic
                     game->OnBeforeRender();
                     //Render All Valid Render Components
-                    Renderer::RenderAll();
+                    Renderer::RenderAll(RenderList);
 
                     GLib::Sprites::EndRendering();
                     GLib::EndRendering();

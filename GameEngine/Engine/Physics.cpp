@@ -12,14 +12,14 @@ namespace Engine {
 				//Todo
 			}
 		}
-		void BuildListFromNodeTree(SmartPtr<Entity> root) {
-			if (root->physicsComp)RigidBodies.push_back(root->physicsComp);
+		void BuildListFromNodeTree(SmartPtr<Entity> root, vector<SmartPtr<Component>>& list) {
+			if (root->physicsComp)list.push_back(root->physicsComp);
 			if (root->children.size() <= 0) return;
-			for (auto& child : root->children)BuildListFromNodeTree(child);
+			for (auto& child : root->children)BuildListFromNodeTree(child, list);
 		}
-		void UpdateAll(float dt)
+		void UpdateAll(float dt, vector<SmartPtr<Component>>& list)
 		{
-			for (auto comp : RigidBodies)Update(comp, dt);
+			for (auto& comp : list)Update(&(*comp), dt);
 		}
 	}
 }
