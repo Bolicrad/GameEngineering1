@@ -1,7 +1,7 @@
 #include "Renderer.h"
 namespace Engine {
 	namespace Renderer {
-		void Render(Component* i_Component)
+		void Render(SmartPtr<Component> i_Component)
 		{
 			float pixelRate = 100.0f;
 			SmartPtr<Entity> obj(i_Component->pEntity);
@@ -17,15 +17,24 @@ namespace Engine {
 				//Todo
 			}
 		}
-		void BuildListFromNodeTree(SmartPtr<Entity> root, vector<SmartPtr<Component>>& list)
+		void BuildListFromNodeTree(SmartPtr<Entity> root, vector<WeakPtr<Component>>& list)
 		{
 			if (root->renderComp)list.push_back(root->renderComp);
 			if (root->children.size() <= 0) return;
 			for (auto& child : root->children) BuildListFromNodeTree(child,list);
 		}
-		void RenderAll(vector<SmartPtr<Component>>& list)
+		void RenderAll(vector<WeakPtr<Component>>& list)
 		{
-			for (auto& comp : list)Render(&(*comp));
+			for (auto& wpComp : list) { 
+				SmartPtr<Component> spComp(wpComp);
+				if (spComp) {
+					Render(spComp);
+				}
+				else {
+					//Remove the component
+					//Todo (might need to use different iteration)
+				}
+			}
 		}
 	}
 }

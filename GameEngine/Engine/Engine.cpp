@@ -165,10 +165,10 @@ namespace Engine {
             //Initialize Custom Game Logic
             game->OnInit();
 
-            auto RenderList = vector<SmartPtr<Renderer::Component>>();
+            auto RenderList = vector<WeakPtr<Renderer::Component>>();
             Renderer::BuildListFromNodeTree(game->sceneRoot, RenderList);
 
-            auto RigidBodies = vector<SmartPtr<Physics::Component>>();
+            auto RigidBodies = vector<WeakPtr<Physics::Component>>();
             Physics::BuildListFromNodeTree(game->sceneRoot, RigidBodies);
 
             bool bQuit = false;
@@ -210,6 +210,9 @@ namespace Engine {
             
             //Kill GLib
             GLib::Shutdown();
+
+            //Kill JobSystem
+            JobSystem::RequestShutdown();
         }
     }
 }

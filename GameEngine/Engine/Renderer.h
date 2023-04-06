@@ -2,8 +2,8 @@
 #include "Entity.h"
 namespace Engine {
 	namespace Renderer {
-		void Render(Component* i_Component);
-		void BuildListFromNodeTree(SmartPtr<Entity> root, vector<SmartPtr<Component>>& list);
-		void RenderAll(vector<SmartPtr<Component>>& list);
+		void Render(SmartPtr<Component> i_Component);
+		void BuildListFromNodeTree(SmartPtr<Entity> root, vector<WeakPtr<Component>>& list);
+		void RenderAll(vector<WeakPtr<Component>>& list);
 	}
 }
