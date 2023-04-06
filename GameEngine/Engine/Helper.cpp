@@ -89,7 +89,18 @@ namespace Helper {
 
         delete[] i_pFileContents;
 
-        std::cout << "ProcessFileContents finished processing file.\n";
+        DEBUG_PRINT("ProcessFileContents finished processing file.\n");
     }
 
+    void PrintFileContents(uint8_t* i_pFileContents, size_t i_sizeFileContents)
+    {
+        assert(i_pFileContents && i_sizeFileContents);
+
+        DEBUG_PRINT("File Contents: ");
+        
+        std::stringstream ss;
+        while (i_sizeFileContents--)
+            ss << *(i_pFileContents++);
+        DEBUG_PRINT(ss.str().c_str(), __FILE__, __LINE__);
+    }
 }

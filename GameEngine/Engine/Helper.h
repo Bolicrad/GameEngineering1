@@ -1,8 +1,11 @@
 #pragma once
 #include <assert.h>
 #include "../GLib/GLib.h"
+#include "../JobSystem/Console/ConsolePrint.h"
 #include "../JobSystem/JobSystem/JobSystem.h"
 #include <iostream>
+#include <iomanip>
+#include <sstream>
 
 
 
@@ -12,6 +15,8 @@ namespace Helper {
 	GLib::Sprite* CreateSprite(const char* i_pFilename);
 
 	void ProcessFileContents(uint8_t* i_pFileContents, size_t i_sizeFileContents, std::function<void(uint8_t*, size_t)> i_Processor);
+
+	void PrintFileContents(uint8_t* i_pFileContents, size_t i_sizeFileContents);
 
 	class ProcessFile
 	{

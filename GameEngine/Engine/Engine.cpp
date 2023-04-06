@@ -63,9 +63,9 @@ void Point2DUnitTest() {
 namespace Engine {
 
     Mutex NewEntityMutex;
-    vector<Entity*> NewEntities;
+    vector<SmartPtr<Entity>> NewEntities;
     // This adds a new GameObject to NewGameObjects
-    void AddNewEntity(Entity* i_pEntity)
+    void AddNewEntity(SmartPtr<Entity> i_pEntity)
     {
         if (i_pEntity)
         {
@@ -82,12 +82,12 @@ namespace Engine {
 
         if (!NewEntities.empty())
         {
-            for (Entity* p : NewEntities)
+            for (SmartPtr<Entity> p : NewEntities)
             {
                 if (p)
                 {
                     p->SetParent(&*root);
-                    p->Pos = Point2D<float>((float)(rand() % 1001 - 500), (float)(rand() % 1001 - 500));
+                    p->Pos = Point2D<float>((float)(rand() % 11 - 5), (float)(rand() % 11 - 5));
                 }
             }
             NewEntities.clear();
@@ -106,39 +106,44 @@ namespace Engine {
             size_t PathLength = 0;
             const char* i_pNextName = reinterpret_cast<const char*>(i_pFileContents);
 
-            while ((i_pFileContents < pEndFileContents) && *i_pFileContents++ != '\r')
+            while ((i_pFileContents < pEndFileContents) && *i_pFileContents++ != '\n')
                 PathLength++;
 
             if (PathLength)
             {
                 std::string Path(i_pNextName, PathLength);
-                AddNewEntity(new Entity(nullptr,Path.c_str()));
+                SmartPtr<Entity> Master(new Entity(nullptr, Path.c_str(), false));
+                AddNewEntity(Master);
             }
-            i_pFileContents++;
+            //i_pFileContents++;
         }
     }
 
-
-    void LoadEntitiesFromFile(SmartPtr<Entity>& root)
-    {
+    void PrintFileByJobSys(const char* filePath) {
         using namespace std::placeholders;
+        JobSystem::JobStatus status;
+        Helper::ProcessFile ProcessFileInstance(filePath, std::bind(Helper::PrintFileContents, _1, _2), JobSystem::GetDefaultQueue(), &status);
+        JobSystem::RunJob(JobSystem::GetDefaultQueue(), std::bind(ProcessFileInstance), &status);
+        status.WaitForZeroJobsLeft();
+        DEBUG_PRINT("PrintFile finished running.");
+    }
 
+    void LoadEntitiesFromFile(SmartPtr<Entity>& root, const char* filePath)
+    {
+
+        using namespace std::placeholders;
+        JobSystem::JobStatus status;
+        const char* CustomQueueName = "EntityLoader";
+        HashedString QueueName = JobSystem::CreateQueue(CustomQueueName, 1);
+        Helper::ProcessFile ProcessFileInstance(filePath, std::bind(CreateEntities, _1, _2), QueueName, &status);
+        JobSystem::RunJob(QueueName, std::bind(ProcessFileInstance), &status);
+        do
         {
-            const char* CustomQueueName = "EntityLoader";
-
-            HashedString QueueName = JobSystem::CreateQueue(CustomQueueName, 2);
-
-            {
-                JobSystem::RunJob(QueueName, std::bind(Helper::ProcessFile("Entities.txt", std::bind(CreateEntities, _1, _2))));
-
-                do
-                {
-                    CheckForNewEntities(root);
-                    Sleep(10);
-                } while (JobSystem::HasJobs(CustomQueueName));
-            }
             CheckForNewEntities(root);
-        }
+            Sleep(10);
+        } while (JobSystem::HasJobs(CustomQueueName));
+        CheckForNewEntities(root);
+        DEBUG_PRINT("LoadEntites finished running.");
     }
 
     void Initialization(HINSTANCE i_hInstance, int i_nCmdShow, Game* game) {
@@ -152,7 +157,10 @@ namespace Engine {
             //Bind Keyboard CallBack
             GLib::SetKeyStateChangeCallback(game->KeyCallBack);
 
-            LoadEntitiesFromFile(game->sceneRoot);
+            //Load Entities From File
+            JobSystem::Init();
+            //PrintFileByJobSys("Entities.txt");
+            LoadEntitiesFromFile(game->sceneRoot, "Entities.txt");
 
             //Initialize Custom Game Logic
             game->OnInit();
