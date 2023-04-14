@@ -3,6 +3,7 @@
 #include "../GLib/GLib.h"
 #include "../JobSystem/Console/ConsolePrint.h"
 #include "../JobSystem/JobSystem/JobSystem.h"
+#include "nlohmann/json.hpp"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
