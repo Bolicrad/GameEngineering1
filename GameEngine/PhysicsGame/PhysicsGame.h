@@ -3,10 +3,7 @@
 
 class PhysicsGame : public Game {
 public: 
-	void OnInit() override {
-		testEntity = new Engine::Entity(&(*sceneRoot), "data\\GoodGuy.dds", true);
-		testEntity->physicsComp->fraction = 3.0f;
-	}
+	void OnInit() override {};
 	void OnUpdate(float dt) override {};
 	void OnBeforeRender() override {};
 	void OnDestroy() override {
@@ -20,16 +17,16 @@ protected:
 		if (bWentDown) {
 			switch (i_VKeyID) {
 			case 65://A
-				testEntity->physicsComp->ApplyForce(Point2D<float>::left);
+				player->physicsComp->ApplyForce(Point2D<float>::left);
 				break;
 			case 68://D
-				testEntity->physicsComp->ApplyForce(Point2D<float>::right);
+				player->physicsComp->ApplyForce(Point2D<float>::right);
 				break;
 			case 83://S
-				testEntity->physicsComp->ApplyForce(Point2D<float>::down);
+				player->physicsComp->ApplyForce(Point2D<float>::down);
 				break;
 			case 87://W
-				testEntity->physicsComp->ApplyForce(Point2D<float>::up);
+				player->physicsComp->ApplyForce(Point2D<float>::up);
 				break;
 			default:
 				break;
@@ -43,23 +40,20 @@ protected:
 				break;
 			}
 			case 65://A
-				testEntity->physicsComp->ReleaseForce(Point2D<float>::left);
+				player->physicsComp->ReleaseForce(Point2D<float>::left);
 				break;
 			case 68://D
-				testEntity->physicsComp->ReleaseForce(Point2D<float>::right);
+				player->physicsComp->ReleaseForce(Point2D<float>::right);
 				break;
 			case 83://S
-				testEntity->physicsComp->ReleaseForce(Point2D<float>::down);
+				player->physicsComp->ReleaseForce(Point2D<float>::down);
 				break;
 			case 87://W
-				testEntity->physicsComp->ReleaseForce(Point2D<float>::up);
+				player->physicsComp->ReleaseForce(Point2D<float>::up);
 				break;
 			default:
 				break;
 			}
 		}
 	};
-private:
-	//Custom Variables
-	Engine::SmartPtr<Engine::Entity> testEntity;
 };

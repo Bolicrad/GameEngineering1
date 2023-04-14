@@ -20,6 +20,7 @@ public:
 	std::function<void(unsigned int i_VKeyID, bool bWentDown)> KeyCallBack;
 	
 	Engine::SmartPtr<Engine::Entity> sceneRoot = nullptr;
+	Engine::SmartPtr<Engine::Entity> player = nullptr;
 
 protected:
 	virtual void OnKey(unsigned int i_VKeyID, bool bWentDown) {};

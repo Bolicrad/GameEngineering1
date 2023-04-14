@@ -9,6 +9,7 @@
 #include "Syncronization/Mutex.h"
 #include "Syncronization/ScopeLock.h"
 using namespace std;
+using json = nlohmann::json;
 
 void Point2DUnitTest() {
     const Point2D<int> A(0, 1);
@@ -65,18 +66,27 @@ namespace Engine {
     Mutex NewEntityMutex;
     vector<SmartPtr<Entity>> NewEntities;
     // This adds a new GameObject to NewGameObjects
-    void AddNewEntity(SmartPtr<Entity> i_pEntity)
+    void AddNewEntity(json & data)
     {
-        if (i_pEntity)
-        {
+        if (data.contains("renderer") && data.contains("physics")) {
+
             // Acquire a scoped lock on the mutex
             Engine::ScopeLock Lock(NewEntityMutex);
-
-            NewEntities.push_back(i_pEntity);
+            bool isPlayer = data.at("isPlayer");
+            bool hasPhysics = data.at("physics").at("valid");
+            string spritePath = data.at("renderer").at("sprite");
+            SmartPtr<Entity> Master(new Entity(isPlayer, spritePath.c_str(), hasPhysics));
+            
+            Master->Pos = Point2D<float>(data.at("initial_position")[0], data.at("initial_position")[1]);
+            if (hasPhysics) {
+                Master->physicsComp->mass = data.at("physics").at("mass");
+                Master->physicsComp->fraction = data.at("physics").at("fraction");
+            }
+            NewEntities.push_back(Master);
         }
     }
 
-    void CheckForNewEntities(SmartPtr<Entity>& root)
+    void CheckForNewEntities(Game* game)
     {
         Engine::ScopeLock Lock(NewEntityMutex);
 
@@ -86,8 +96,8 @@ namespace Engine {
             {
                 if (p)
                 {
-                    p->SetParent(&*root);
-                    p->Pos = Point2D<float>((float)(rand() % 11 - 5), (float)(rand() % 11 - 5));
+                    p->SetParent(&*(game->sceneRoot));
+                    if (p->isPlayer) game->player = p;
                 }
             }
             NewEntities.clear();
@@ -100,23 +110,34 @@ namespace Engine {
         assert(i_pFileContents && i_sizeFileContents);
 
         uint8_t* pEndFileContents = i_pFileContents + i_sizeFileContents;
+        const char* i_pNextName = reinterpret_cast<const char*>(i_pFileContents);
+        size_t length = 0;
+        while ((i_pFileContents < pEndFileContents) && *i_pFileContents++ != EOF) length++;
+        string source(i_pNextName, length);
 
-        while (i_pFileContents < pEndFileContents)
-        {
-            size_t PathLength = 0;
-            const char* i_pNextName = reinterpret_cast<const char*>(i_pFileContents);
+        json entities = json::parse(source);
+        assert(entities.contains("list") && entities["list"].is_array());
 
-            while ((i_pFileContents < pEndFileContents) && *i_pFileContents++ != '\n')
-                PathLength++;
-
-            if (PathLength)
-            {
-                std::string Path(i_pNextName, PathLength);
-                SmartPtr<Entity> Master(new Entity(nullptr, Path.c_str(), false));
-                AddNewEntity(Master);
-            }
-            //i_pFileContents++;
+        for (auto& entity : entities["list"]) {
+            AddNewEntity(entity);
         }
+
+
+
+        //{
+        //    size_t PathLength = 0;
+        //    const char* i_pNextName = reinterpret_cast<const char*>(i_pFileContents);
+
+        //    while ((i_pFileContents < pEndFileContents) && *i_pFileContents++ != '\n')
+        //        PathLength++;
+
+        //    if (PathLength)
+        //    {
+        //        std::string Path(i_pNextName, PathLength);
+        //        SmartPtr<Entity> Master(new Entity(nullptr, Path.c_str(), false));
+        //        AddNewEntity(Master);
+        //    }
+        //}
     }
 
     void PrintFileByJobSys(const char* filePath) {
@@ -128,7 +149,7 @@ namespace Engine {
         DEBUG_PRINT("PrintFile finished running.");
     }
 
-    void LoadEntitiesFromFile(SmartPtr<Entity>& root, const char* filePath)
+    void LoadEntitiesFromFile(Game* game, const char* filePath)
     {
 
         using namespace std::placeholders;
@@ -139,10 +160,10 @@ namespace Engine {
         JobSystem::RunJob(QueueName, std::bind(ProcessFileInstance), &status);
         do
         {
-            CheckForNewEntities(root);
+            CheckForNewEntities(game);
             Sleep(10);
         } while (JobSystem::HasJobs(CustomQueueName));
-        CheckForNewEntities(root);
+        CheckForNewEntities(game);
         DEBUG_PRINT("LoadEntites finished running.");
     }
 
@@ -159,8 +180,8 @@ namespace Engine {
 
             //Load Entities From File
             JobSystem::Init();
-            //PrintFileByJobSys("Entities.txt");
-            LoadEntitiesFromFile(game->sceneRoot, "Entities.txt");
+            //PrintFileByJobSys("data\\Entities.json");
+            LoadEntitiesFromFile(game, "data\\Entities.json");
 
             //Initialize Custom Game Logic
             game->OnInit();

@@ -18,9 +18,9 @@ namespace Engine {
 
 	class Entity {
 	public:
-		Entity(Entity* pParent = nullptr, const char* spritePath = nullptr, bool initPhysics = false)
+		Entity(bool i_isPlayer = false, const char* spritePath = nullptr, bool initPhysics = false)
 		{
-			SetParent(pParent);
+			isPlayer = i_isPlayer;
 			if (spritePath)CreateRenderComp(spritePath);
 			if (initPhysics)CreatePhysicComp();
 		};
@@ -84,6 +84,7 @@ namespace Engine {
 		}
 
 		Point2D<float> Pos;
+		bool isPlayer;
 		
 		//Render Component
 		SmartPtr<Renderer::Component> renderComp;

@@ -1,0 +1,39 @@
+{
+  "list":[
+    {
+      "isPlayer": false,
+      "name": "Rockman",
+      "initial_position": [ 3.2, -4.7 ],
+      "physics": {
+        "valid": false
+      },
+      "renderer": {
+        "sprite": "data\\BadGuy.dds"
+      }
+    },
+    {
+      "isPlayer": false,
+      "name": "Megaman",
+      "initial_position": [ -2.6, 4 ],
+      "physics": {
+        "valid": false
+      },
+      "renderer": {
+        "sprite": "data\\BadGuy.dds"
+      }
+    },
+    {
+      "isPlayer": true,
+      "name": "Farmer",
+      "initial_position": [ 0.0, 0.0 ],
+      "physics": {
+        "valid": true,
+        "mass": 1.0,
+        "fraction": 3.0
+      },
+      "renderer": {
+        "sprite": "data\\GoodGuy.dds"
+      }
+    }
+  ]
+}
