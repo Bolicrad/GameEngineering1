@@ -68,10 +68,8 @@
     <ClInclude Include="WeakPtr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\PhysicsGame\Entities.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
+    <ClInclude Include="Vector4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

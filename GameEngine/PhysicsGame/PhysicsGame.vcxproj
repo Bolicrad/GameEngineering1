@@ -174,7 +174,7 @@
     <ClInclude Include="PhysicsGame.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Entities.txt" />
+    <None Include="data\Entities.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

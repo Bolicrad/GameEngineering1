@@ -193,10 +193,8 @@
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="SmartPtr.h" />
     <ClInclude Include="Timing.h" />
+    <ClInclude Include="Vector4.h" />
     <ClInclude Include="WeakPtr.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\PhysicsGame\Entities.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
