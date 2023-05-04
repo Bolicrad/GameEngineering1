@@ -121,8 +121,9 @@ namespace Engine {
     void Initialization(HINSTANCE i_hInstance, int i_nCmdShow, Game* game) {
         cout << "Engine Init..." << endl;
         DEBUG_PRINT("Testing Vector4...");
-        bool vector4UnitTestResult = Vector4::UnitTest();
-        DEBUG_PRINT(vector4UnitTestResult ? "Result: Pass!" : "Result: Not Pass...");
+        DEBUG_PRINT(Vector4::UnitTest() ? "Result: Pass!" : "Result: Not Pass...");
+        DEBUG_PRINT("Testing Matrix4x4...");
+        DEBUG_PRINT(Matrix4x4::UnitTest() ? "Result: Pass!" : "Result: Not Pass...");
 
         //Init GLib
         bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, game->GetGameName(), -1, game->windowWidth, game->windowHeight, true);
